@@ -1,0 +1,88 @@
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/outfit-latin.woff2') format('woff2');
+}
+
+:root {
+  --bg: #07050f;
+  --ink: #f7f2ff;
+  --muted: #b7accd;
+  --faint: #857997;
+  --mint: #a9f0cf;
+  --mint-strong: #7be3b4;
+  --mint-deep: #17352a;
+  --lav: #cbb6ff;
+  --rose: #ffb7d6;
+  --gold: #ffd68f;
+  --sky: #a9dcff;
+  --danger: #ffa9a9;
+
+  --glass: rgba(25, 20, 44, 0.72);
+  --glass-strong: rgba(20, 16, 37, 0.92);
+  --glass-soft: rgba(255, 255, 255, 0.055);
+  --line: rgba(255, 255, 255, 0.085);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --mint-line: rgba(169, 240, 207, 0.24);
+
+  --shadow-lg: 0 30px 80px rgba(2, 1, 10, 0.62);
+  --shadow-md: 0 16px 40px rgba(2, 1, 10, 0.46);
+  --shadow-sm: 0 8px 20px rgba(2, 1, 10, 0.32);
+
+  --r-xl: 32px;
+  --r-lg: 24px;
+  --r-md: 18px;
+  --r-sm: 13px;
+
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html[lang='ja'] {
+  --font-display: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --font-body: 'Hiragino Sans', 'Yu Gothic UI', 'Noto Sans JP', system-ui, sans-serif;
+}
+
+html[lang='ar'] {
+  --font-display: 'Noto Naskh Arabic', 'Geeza Pro', 'Times New Roman', serif;
+  --font-body: 'Noto Sans Arabic', 'Geeza Pro', 'Segoe UI', system-ui, sans-serif;
+}
+
+html[lang='ar'] body {
+  letter-spacing: 0;
+}
+
+html[data-text='large'] {
+  font-size: 18px;
+}
+
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion='full']) *,
+  html:not([data-motion='full']) *::before,
+  html:not([data-motion='full']) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

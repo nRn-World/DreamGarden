@@ -1,0 +1,71 @@
+nRnWorld Educational License 1.0
+SPDX-License-Identifier: LicenseRef-nRnWorld-Educational-1.0
+
+Copyright (c) 2026 nRnWorld. All rights reserved.
+Game, source code, writing, artwork and audio: "Dream Garden — By nRnWorld".
+
+This license is source-available. It is NOT an OSI-approved open-source license.
+
+1. PERMITTED USES
+
+Subject to the conditions below, you may:
+  a. download and view the source code and assets;
+  b. modify the source code for your own learning;
+  c. use the source code and assets solely for non-commercial educational purposes,
+     including personal study, classroom teaching and non-commercial research;
+  d. share unmodified or modified source code with other people for those same
+     non-commercial educational purposes.
+
+2. CONDITIONS
+
+  a. The exact phrase "By nRnWorld" must remain prominent in this license, in the
+     application's about/credits screen, and in any redistributed source code.
+  b. You must include this license file with any redistribution of the source.
+  c. Modified versions must be clearly marked as modified and must not imply that
+     nRnWorld endorses them.
+  d. You may not remove or obscure copyright, authorship or license notices.
+
+3. PROHIBITED USES
+
+Without separate prior written permission from nRnWorld (bynrnworld@gmail.com), you may not:
+  a. sell this software or any derivative of it;
+  b. distribute it as part of a monetized product or service;
+  c. distribute it with advertising, sponsorships, in-app purchases, subscriptions,
+     or any other commercial reuse;
+  d. use it to obtain commercial advantage, including paid client work, consulting
+     deliverables, or commercial training products;
+  e. publish it to an app store, game store or commercial platform;
+  f. sublicense, rent, lease or otherwise transfer commercial rights;
+  g. use the nRnWorld name, logo or "Dream Garden" brand to promote a derivative
+     without permission.
+
+4. OWNER RIGHTS
+
+nRnWorld retains all commercial rights, including the exclusive right to publish,
+monetize, license and distribute the game and its derivatives. Nothing in this
+license grants you any trademark rights or any rights to the story, characters or
+brand beyond the non-commercial educational use described above.
+
+5. THIRD-PARTY COMPONENTS
+
+Third-party libraries, fonts and flag artwork remain under their own licenses. See
+THIRD_PARTY_NOTICES.md. This license does not alter those terms.
+
+6. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHOR OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+7. TERMINATION
+
+Any breach of this license terminates your rights automatically. On termination you
+must stop using and distributing the software and destroy copies in your control.
+
+8. LEGAL REVIEW
+
+This is a custom license drafted for this project, not legal advice. The owner should
+obtain independent legal review before commercial release or store publication.

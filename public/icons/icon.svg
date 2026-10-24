@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#1c1438"/>
+      <stop offset="55%" stop-color="#120e28"/>
+      <stop offset="100%" stop-color="#07050f"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="36%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#fffdf2"/>
+      <stop offset="55%" stop-color="#ffe7b5"/>
+      <stop offset="100%" stop-color="#e6b573"/>
+    </radialGradient>
+    <linearGradient id="petal" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#e9fbff"/>
+      <stop offset="55%" stop-color="#a7e2ff"/>
+      <stop offset="100%" stop-color="#6fb8ef"/>
+    </linearGradient>
+    <linearGradient id="stem" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4c9c83"/>
+      <stop offset="100%" stop-color="#a9f0cf"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a9f0cf" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a9f0cf" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="crescent">
+      <circle cx="372" cy="148" r="68" fill="#fff"/>
+      <circle cx="398" cy="126" r="62" fill="#000"/>
+    </mask>
+  </defs>
+
+  <rect width="512" height="512" rx="118" fill="url(#bg)"/>
+  <circle cx="372" cy="148" r="100" fill="#ffe7b5" opacity="0.08"/>
+  <circle cx="372" cy="148" r="68" fill="url(#moon)" mask="url(#crescent)"/>
+
+  <g fill="#fff8e8" opacity="0.75">
+    <circle cx="120" cy="112" r="3.4"/>
+    <circle cx="206" cy="84" r="2.2"/>
+    <circle cx="86" cy="208" r="2.6"/>
+    <circle cx="308" cy="82" r="2"/>
+    <circle cx="164" cy="168" r="1.8"/>
+    <circle cx="430" cy="248" r="2.4"/>
+  </g>
+
+  <ellipse cx="256" cy="394" rx="140" ry="40" fill="url(#glow)" opacity="0.8"/>
+
+  <path d="M249 402 C 244 350, 258 310, 266 272" stroke="url(#stem)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M256 356 C 224 340, 202 316, 194 290 C 226 292, 250 310, 260 338 Z" fill="#78d3ae" opacity="0.9"/>
+  <path d="M260 330 C 288 316, 308 294, 316 272 C 288 276, 266 292, 258 314 Z" fill="#5ebf9b" opacity="0.85"/>
+
+  <g transform="translate(270 254)">
+    <g fill="url(#petal)">
+      <ellipse cx="0" cy="-56" rx="26" ry="64" opacity="0.95"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(45)" opacity="0.9"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(90)" opacity="0.95"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(135)" opacity="0.9"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(180)" opacity="0.95"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(225)" opacity="0.9"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(270)" opacity="0.95"/>
+      <ellipse cx="0" cy="-56" rx="26" ry="64" transform="rotate(315)" opacity="0.9"/>
+    </g>
+    <circle r="24" fill="#fff6cf"/>
+    <circle r="13" fill="#fffdf4"/>
+    <circle cx="-7" cy="-7" r="4" fill="#ffffff" opacity="0.9"/>
+  </g>
+
+  <g fill="#ffe9b3">
+    <circle cx="120" cy="330" r="3.2"/>
+    <circle cx="402" cy="356" r="2.4"/>
+    <circle cx="348" cy="220" r="2"/>
+  </g>
+</svg>

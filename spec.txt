@@ -1,0 +1,170 @@
+Dream Garden
+
+                02. Dream Garden
+
+                                               Cozy dream garden simulation
+                    Complete Android production prompt for an autonomous coding agent
+
+The implementation agent must use these references to understand the intended quality and visual language, then create
+original production assets.
+
+By nRnWorld | AI Agent Production Brief | Visuals are concept references                                                1
+Dream Garden
+
+ Visual Direction Board: 10 Reference Frames
+
+  Review all ten images before implementation. Use them together, not independently.
+
+01 Overall visual target                                                  02 Core gameplay framing
+
+03 Environment and world language                                         04 Player focus and interaction
+
+By nRnWorld | AI Agent Production Brief | Visuals are concept references                                   2
+Dream Garden
+
+ Visual Direction Board: continued
+
+05 HUD and control hierarchy                                              06 Lighting and materials
+
+                                                                          08 Progression presentation
+
+07 Navigation and landmarks
+
+By nRnWorld | AI Agent Production Brief | Visuals are concept references                               3
+Dream Garden
+
+ Visual Direction Board: continued
+
+09 Feedback and effects
+
+                                                                          10 Composition reference
+
+By nRnWorld | AI Agent Production Brief | Visuals are concept references                            4
+Dream Garden
+
+MASTER BUILD PROMPT: DREAM GARDEN
+
+Working title: Dream Garden
+Studio credit: By nRnWorld
+Commercial licensing contact: bynrnworld@gmail.com
+Application ID: com.nrnworld.dreamgarden
+Product vision: Grow a magical garden from voluntary daily choices, nurture spirits, decorate habitats, and uncover gentle
+mysteries.
+
+Agent role and autonomy
+
+Act as lead game designer, senior Android engineer, technical artist, QA lead, accessibility specialist, localization lead,
+privacy reviewer, release engineer, and documentation owner. Build the repository and working game rather than only
+explaining it. Make reasonable documented decisions and continue autonomously. Ask the owner only for credentials,
+identity verification, tax or payment details, signing keys, legal declarations, account ownership, or final publishing approval.
+Never claim an external action or test succeeded unless it was actually completed.
+
+Production workflow
+
+Create PLAN.md, ARCHITECTURE.md, TASKS.md, RISK_REGISTER.md, ACCEPTANCE_CRITERIA.md, and
+HUMAN_ACTIONS.md first. Implement small vertical slices. After every slice, build and test. Fix all failures before
+continuing. Finish with a clean-clone validation, dependency restore, formatting, lint, static analysis, unit tests, integration
+tests, Android UI tests, release build, emulator installation, smoke test, spelling review, accessibility review, privacy review,
+dependency scan, secret scan, and repository audit. Record exact evidence in RELEASE_REPORT.md.
+
+Professional game requirements
+
+Deliver a complete mobile game with first-launch flow, language selector, main menu, tutorial, core gameplay, progression,
+pause, settings, save and recovery, failure and retry, completion and ending, credits, privacy controls, adaptive phone and
+tablet layouts, offline-capable core gameplay, polished animation, original visual identity, licensed audio, haptics, scalable
+quality presets, reduced-motion mode, color-independent signals, large-touch targets, controller support where appropriate,
+and stable performance on representative mid-range Android hardware.
+
+Localization
+
+English is the default and fallback. Ship complete release-quality English, Swedish, Turkish, Spanish, Arabic, French, and
+Japanese. The first launch and Settings > Language selector must show the language name in its own script and a small
+authentic flag icon: United Kingdom, Sweden, Türkiye, Spain, Saudi Arabia, France, and Japan respectively. Do not
+generate or redraw flags. Use accurate, properly licensed SVG or high-resolution PNG assets stored locally, preserve
+official proportions and colors, and document source and license. Always show the written language name because a
+language is not identical to a country. Do not use emoji flags.
+
+Localization engineering
+
+Use Android per-app language support and synchronize the in-game selector with system per-app language settings where
+available. Persist changes without losing progress. Externalize every user-facing string. Use stable keys, complete
+messages, locale-aware plurals, numbers and dates, and placeholder consistency tests. Never concatenate translated
+sentence fragments. Arabic must provide true RTL layout, correct shaping, bidi handling, Start/End rules, appropriate
+mirroring, and licensed glyph-complete fonts. Japanese must use legible glyph-complete fonts and correct line breaking.
+Run en-XA and ar-XB pseudolocales plus all seven real locales, large font sizes, compact screens, tablets, and every
+important screen.
+
+Visual quality and player appeal
+
+Use the ten visual references as a coherent direction board for camera, composition, color, lighting, environment density,
+interaction hierarchy, HUD placement, and mobile readability. They are not final assets and must not be copied literally.
+Create original production assets and an art bible covering shape language, materials, lighting, camera, VFX, typography,
+animation, UI states, iconography, quality tiers, texture budgets, mesh budgets, shaders, overdraw, and prohibited
+ambiguity. Give the player a meaningful interaction within 30 seconds. Use honest onboarding, clear goals, satisfying
+feedback, fast restart, fair progression, useful achievements, and no dark patterns.
+
+Android architecture
+
+By nRnWorld | AI Agent Production Brief | Visuals are concept references                                                           5
+Dream Garden
+
+  Use a stable production-ready Android toolchain. Prefer Godot 4.x with GDScript for the game concepts except use native
+  Kotlin and ARCore-compatible abstractions for Reality Detective. Separate gameplay domain logic from rendering,
+  persistence, ads, analytics, and platform services through interfaces. Use data-driven content, versioned saves, migrations,
+  rolling backups, corruption recovery, deterministic seeds where useful, and diagnostics excluded from release. Produce a
+  Play-ready Android App Bundle, adaptive icon, splash, backup and network rules, 64-bit support where applicable, safe
+  shrinking, and documented reproducible commands.
+
+ AdMob and privacy
+
+  Integrate the current supported Google Mobile Ads path and Google User Messaging Platform consent flow. Use official test
+  ad units in debug builds only. Read production IDs from secure environment-specific configuration and never commit
+  secrets. Rewarded ads must be optional and non-exclusive. Interstitials may appear only at natural breaks with strict
+  frequency caps. Banners must never obstruct controls. Do not request ads until consent state permits. Provide privacy
+  options when required, regulated-region handling, app-ads.txt instructions, Data safety worksheet, ad test matrix,
+  child-audience decision, and a future remove-ads entitlement interface. Never click live ads during testing.
+
+ GitHub and license
+
+  Initialize Git with meaningful commits and create a GitHub-ready repository containing README.md, LICENSE,
+  THIRD_PARTY_NOTICES.md, CONTRIBUTING.md, SECURITY.md, PRIVACY.md, BUILDING.md, CHANGELOG.md,
+  RELEASE_CHECKLIST.md, store assets, tests, tools, docs, and GitHub Actions. If authenticated access exists, create and
+  push the repository, tags, and first release. Otherwise provide exact sign-in steps and continue all local work. Never commit
+  keys or credentials.
+
+ Required custom license
+
+  Write a custom source-available LICENSE granting download, viewing, modification, and use solely for non-commercial
+  educational purposes, provided the exact phrase 'By nRnWorld' remains prominent in the license and redistributed source.
+  Prohibit sale, monetized distribution, advertising-supported reuse, sponsorship, paid client work, and other commercial
+  advantage without separate written permission from bynrnworld@gmail.com. Include an AS-IS warranty disclaimer. State
+  that the license is not OSI-approved open source. Preserve third-party licenses separately and add SPDX-License-Identifier:
+  LicenseRef-nRnWorld-Educational-1.0 where practical. Recommend owner legal review before release.
+
+ Testing and definition of done
+
+  Test fresh install, update, first launch, all seven languages, RTL, save and recovery, denied permissions, offline mode,
+  interrupted ads, consent changes, orientation and resize, process death, background resume, low memory, corrupted
+  saves, accessibility scaling, two performance tiers, and full completion from start to ending. The release is done only when a
+  clean clone builds, all automated tests pass, all text is translated and proofread, there are no known blocker crashes or
+  placeholder screens, production ad values remain externalized, store materials exist in all languages, no secret is
+  committed, and RELEASE_REPORT.md lists versions, commands, device matrix, actual results, limitations, and remaining
+  human-only Play Console steps.
+
+ Game-specific scope
+
+  Create a complete, polished launch version of Dream Garden. The core promise is: Grow a magical garden from voluntary
+  daily choices, nurture spirits, decorate habitats, and uncover gentle mysteries. Build enough handcrafted content for a
+  satisfying complete campaign plus a data-driven pipeline for future expansion. Define the player loop, progression, difficulty
+  curve, tutorial sequence, level or content schema, fail states, rewards, accessibility alternatives, performance budget, and
+  store positioning specifically for this concept. The game must remain enjoyable without advertisements.
+
+ Final autonomous instruction
+
+  Start immediately. Build the game and repository, test every system, fix code defects, visual errors, spelling,
+  translation gaps, accessibility problems, performance regressions, privacy issues, and packaging failures.
+  Repeat the entire verification from a clean checkout. Stop only for a genuine human-only credential, legal,
+  payment, identity, signing, account, or final publication action. Never fabricate completion or test evidence.
+
+By nRnWorld | AI Agent Production Brief | Visuals are concept references                                                          6
+

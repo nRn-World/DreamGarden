@@ -1,0 +1,35 @@
+{
+  "name": "dream-garden",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Dream Garden — a cozy dream-garden simulation. By nRnWorld.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "qa": "node scripts/qa.mjs",
+    "store:screenshots": "node scripts/capture-store.mjs",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.2",
+    "playwright-core": "^1.64.1",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^4.1.11"
+  }
+}

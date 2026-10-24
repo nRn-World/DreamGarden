@@ -1,0 +1,1241 @@
+/* ---------------------------------------------------------------- */
+/* Dock                                                             */
+/* ---------------------------------------------------------------- */
+
+.dock {
+  position: relative;
+  z-index: 25;
+  flex-shrink: 0;
+  margin: 6px 14px calc(9px + var(--safe-bottom));
+  padding: 7px 5px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(180deg, rgba(34, 27, 56, 0.94), rgba(18, 14, 34, 0.97));
+  box-shadow:
+    0 18px 40px rgba(2, 1, 10, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.dock-item {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: #8d80a2;
+  border-radius: 16px;
+  min-height: 50px;
+  padding: 6px 2px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.15s ease;
+  font-family: var(--font-body);
+}
+
+.dock-item:active {
+  transform: scale(0.95);
+}
+
+.dock-item.is-active {
+  color: var(--mint);
+  background:
+    linear-gradient(180deg, rgba(169, 240, 207, 0.14), rgba(169, 240, 207, 0.03));
+  box-shadow:
+    inset 0 0 0 1px rgba(169, 240, 207, 0.18),
+    0 0 20px rgba(169, 240, 207, 0.08);
+}
+
+.dock-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 22px;
+}
+
+.dock-item.is-active .dock-icon svg {
+  filter: drop-shadow(0 0 6px rgba(169, 240, 207, 0.5));
+}
+
+.dock-label {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.dock-dot {
+  position: absolute;
+  top: -2px;
+  inset-inline-end: -4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 7px rgba(255, 214, 143, 0.8);
+}
+
+/* ---------------------------------------------------------------- */
+/* Segmented control                                                */
+/* ---------------------------------------------------------------- */
+
+.segmented {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 15px;
+  background: rgba(17, 13, 32, 0.6);
+  border: 1px solid var(--line);
+  margin-bottom: 14px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.segment {
+  border: 0;
+  background: transparent;
+  color: var(--faint);
+  min-height: 36px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+.segment.is-active {
+  color: var(--ink);
+  background: linear-gradient(180deg, rgba(93, 78, 134, 0.5), rgba(58, 47, 90, 0.6));
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ---------------------------------------------------------------- */
+/* Shop                                                             */
+/* ---------------------------------------------------------------- */
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.shop-card {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(41, 33, 63, 0.9), rgba(21, 16, 38, 0.94));
+  box-shadow:
+    0 12px 26px rgba(2, 1, 10, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.shop-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 62%;
+  background: radial-gradient(ellipse at 50% 22%, var(--card-glow, #a9f0cf), transparent 62%);
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.shop-card.is-locked {
+  opacity: 0.72;
+}
+
+.shop-card.is-locked::before {
+  opacity: 0.05;
+}
+
+.shop-card-art {
+  position: relative;
+  height: 94px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 8px;
+  overflow: visible;
+}
+
+.shop-card-art .plant-art {
+  width: 88px;
+  height: 112px;
+  transform-origin: 50% 100%;
+}
+
+.shop-card.is-locked .plant-art {
+  filter: grayscale(0.65) brightness(0.7);
+  opacity: 0.65;
+}
+
+.shop-lock {
+  position: absolute;
+  top: 7px;
+  inset-inline-start: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 7px;
+  padding: 3px 6px;
+  font-size: 0.56rem;
+  background: rgba(10, 8, 20, 0.65);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  backdrop-filter: blur(6px);
+}
+
+.shop-card-body {
+  padding: 4px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.shop-name-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.shop-name-row h2 {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shop-line {
+  color: var(--faint);
+  font-size: 0.65rem;
+  line-height: 1.35;
+  min-height: 2.7em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.shop-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 7px;
+  color: rgba(207, 195, 231, 0.72);
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.shop-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.shop-stats svg {
+  opacity: 0.75;
+}
+
+.shop-foot {
+  margin-top: auto;
+  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.shop-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--sky);
+  font-variant-numeric: tabular-nums;
+}
+
+.shop-price.is-poor {
+  color: #ffa8a8;
+}
+
+.shop-plant {
+  min-height: 30px;
+  padding: 4px 9px;
+  font-size: 0.66rem;
+}
+
+.shop-locked-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.64rem;
+  color: var(--faint);
+}
+
+.shop-note {
+  grid-column: 1 / -1;
+  color: var(--faint);
+  font-size: 0.72rem;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Decor                                                            */
+/* ---------------------------------------------------------------- */
+
+.decor-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 17px;
+  background: linear-gradient(120deg, rgba(169, 240, 207, 0.08), rgba(203, 182, 255, 0.06));
+  border: 1px solid rgba(169, 240, 207, 0.16);
+  margin-bottom: 12px;
+}
+
+.decor-summary-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: rgba(169, 240, 207, 0.1);
+  border: 1px solid rgba(169, 240, 207, 0.2);
+  color: var(--mint);
+  flex-shrink: 0;
+}
+
+.decor-summary > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.decor-summary strong {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.decor-summary span span {
+  color: var(--faint);
+  font-size: 0.66rem;
+}
+
+.decor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.decor-card {
+  border-radius: 19px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(40, 33, 62, 0.9), rgba(20, 16, 36, 0.94));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.decor-card.is-placed {
+  border-color: rgba(169, 240, 207, 0.3);
+  box-shadow: 0 0 22px rgba(169, 240, 207, 0.08);
+}
+
+.decor-card-art {
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 6px;
+  background: radial-gradient(ellipse at 50% 80%, rgba(169, 240, 207, 0.1), transparent 65%);
+}
+
+.decor-card-art .deco-art {
+  width: 72px;
+  height: auto;
+}
+
+.decor-card-body {
+  padding: 5px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.placed-tag {
+  align-self: flex-start;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 0.57rem;
+  color: var(--mint);
+  background: rgba(169, 240, 207, 0.09);
+  border: 1px solid rgba(169, 240, 207, 0.18);
+}
+
+/* ---------------------------------------------------------------- */
+/* Basket                                                           */
+/* ---------------------------------------------------------------- */
+
+.basket-panel {
+  border-radius: 20px;
+  padding: 14px;
+  background: rgba(22, 17, 39, 0.55);
+  border: 1px solid var(--line);
+}
+
+.basket-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 2px 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.basket-total > span:first-child {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.basket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.basket-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.basket-art {
+  width: 38px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: end center;
+}
+
+.basket-art .plant-art {
+  width: 40px;
+  height: 50px;
+}
+
+.basket-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.basket-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.basket-meta {
+  color: var(--faint);
+  font-size: 0.62rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.basket-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.basket-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--sky);
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.basket-row .mini-button {
+  min-height: 26px;
+  padding: 3px 8px;
+  font-size: 0.62rem;
+  border-radius: 8px;
+}
+
+/* ---------------------------------------------------------------- */
+/* Wishes                                                           */
+/* ---------------------------------------------------------------- */
+
+.refresh-button {
+  margin-top: 10px;
+}
+
+.wish-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.wish-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(110% 80% at 100% 0%, rgba(203, 182, 255, 0.09), transparent 55%),
+    linear-gradient(180deg, rgba(38, 31, 60, 0.9), rgba(20, 16, 36, 0.95));
+  box-shadow:
+    0 12px 28px rgba(2, 1, 10, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.wish-card.is-ready {
+  border-color: rgba(169, 240, 207, 0.3);
+  box-shadow:
+    0 12px 28px rgba(2, 1, 10, 0.3),
+    0 0 30px rgba(169, 240, 207, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.wish-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.wish-spirit {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  margin: -8px 0 -4px -6px;
+}
+
+.wish-spirit .spirit-art {
+  width: 100%;
+  height: 100%;
+}
+
+.wish-from {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.wish-passive {
+  color: var(--faint);
+  font-size: 0.64rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wish-ready {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 99px;
+  padding: 4px 7px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--mint);
+  background: rgba(169, 240, 207, 0.1);
+  border: 1px solid rgba(169, 240, 207, 0.22);
+  white-space: nowrap;
+}
+
+.wish-items {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.wish-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 6px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 0;
+  position: relative;
+}
+
+.wish-item.is-have {
+  border-color: rgba(169, 240, 207, 0.16);
+  background: rgba(169, 240, 207, 0.05);
+}
+
+.wish-item-art {
+  width: 30px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  align-items: end;
+}
+
+.wish-item-art .plant-art {
+  width: 30px;
+  height: 38px;
+}
+
+.wish-item-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.wish-item-name {
+  font-size: 0.64rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wish-item-count {
+  color: var(--faint);
+  font-size: 0.59rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.wish-item.is-have .wish-item-count {
+  color: rgba(169, 240, 207, 0.8);
+}
+
+.wish-missing {
+  position: absolute;
+  top: -5px;
+  inset-inline-end: -3px;
+  font-size: 0.47rem;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: rgba(255, 150, 150, 0.16);
+  color: #ffc0c0;
+  border: 1px solid rgba(255, 160, 160, 0.2);
+  white-space: nowrap;
+}
+
+.wish-foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.wish-reward {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.wish-reward span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.wish-reward span:first-child {
+  color: var(--sky);
+}
+
+.wish-reward span:last-child {
+  color: var(--gold);
+}
+
+.wish-button {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 0.76rem;
+  border-radius: 12px;
+}
+
+.wish-watermark {
+  position: absolute;
+  inset-inline-end: -8px;
+  bottom: -12px;
+  opacity: 0.12;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wishes-footnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 13px;
+  background: rgba(203, 182, 255, 0.055);
+  border: 1px solid rgba(203, 182, 255, 0.1);
+  color: var(--faint);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.wishes-footnote svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--lav);
+  opacity: 0.7;
+}
+
+.wishes-refresh {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.empty-page {
+  text-align: center;
+  color: var(--faint);
+  font-size: 0.8rem;
+  padding: 30px 20px;
+}
+
+/* ---------------------------------------------------------------- */
+/* Spirits                                                          */
+/* ---------------------------------------------------------------- */
+
+.spirit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.spirit-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--spirit-glow, #a9f0cf), transparent 58%),
+    linear-gradient(180deg, rgba(40, 32, 62, 0.9), rgba(20, 16, 36, 0.95));
+  padding: 9px 10px 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  cursor: pointer;
+  color: var(--ink);
+  text-align: start;
+  transition:
+    transform 0.2s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.spirit-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(20, 16, 36, 0.82));
+  pointer-events: none;
+}
+
+.spirit-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.spirit-card.is-locked {
+  opacity: 0.7;
+}
+
+.spirit-card.is-invited {
+  border-color: rgba(169, 240, 207, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(169, 240, 207, 0.08),
+    0 0 26px rgba(169, 240, 207, 0.08);
+}
+
+.spirit-card-art {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.spirit-card-art .spirit-art {
+  width: 92px;
+  height: 92px;
+}
+
+.spirit-card-name {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.invited-mark {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--mint);
+  color: #163027;
+}
+
+.spirit-card-gift {
+  position: relative;
+  z-index: 2;
+  color: rgba(210, 198, 235, 0.7);
+  font-size: 0.62rem;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.spirit-card-locked {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--faint);
+  font-size: 0.62rem;
+  min-height: 2.6em;
+}
+
+.bond-dots {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.bond-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.bond-dots i.is-filled {
+  background: var(--spirit-glow, var(--mint));
+  box-shadow: 0 0 5px var(--spirit-glow, var(--mint));
+}
+
+/* ---------------------------------------------------------------- */
+/* Journal                                                          */
+/* ---------------------------------------------------------------- */
+
+.story-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 13px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.story-progress-track {
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.story-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7be3b4, #cdb6ff);
+}
+
+.chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chapter-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-align: start;
+  padding: 12px 12px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: linear-gradient(120deg, rgba(38, 31, 60, 0.82), rgba(22, 17, 39, 0.9));
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.chapter-card:hover {
+  border-color: rgba(169, 240, 207, 0.22);
+}
+
+.chapter-card.is-read {
+  opacity: 0.82;
+}
+
+.chapter-card.is-locked {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.chapter-number {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 214, 143, 0.25);
+  background: radial-gradient(circle at 35% 30%, rgba(255, 226, 171, 0.16), rgba(30, 24, 50, 0.6));
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.chapter-card.is-read .chapter-number {
+  color: var(--mint);
+  border-color: rgba(169, 240, 207, 0.25);
+}
+
+.chapter-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.chapter-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.52rem;
+  color: var(--faint);
+}
+
+.chapter-title {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chapter-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--faint);
+  font-size: 0.62rem;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-reward svg {
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.chapter-reward svg:first-child {
+  color: var(--sky);
+}
+
+.chapter-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  color: var(--mint);
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+
+[dir='rtl'] .chapter-action svg {
+  transform: scaleX(-1);
+}
+
+/* achievements */
+
+.achievement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.achievement-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.achievement-row.is-done {
+  border-color: rgba(169, 240, 207, 0.16);
+  background: rgba(169, 240, 207, 0.035);
+}
+
+.achievement-row.is-claimed {
+  opacity: 0.65;
+}
+
+.achievement-medal {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 214, 143, 0.08);
+  border: 1px solid rgba(255, 214, 143, 0.14);
+  color: var(--gold);
+}
+
+.achievement-row.is-done .achievement-medal {
+  background: rgba(169, 240, 207, 0.1);
+  border-color: rgba(169, 240, 207, 0.2);
+  color: var(--mint);
+}
+
+.achievement-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.achievement-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.achievement-desc {
+  color: var(--faint);
+  font-size: 0.63rem;
+  line-height: 1.3;
+}
+
+.achievement-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.achievement-track {
+  flex: 1;
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  max-width: 110px;
+}
+
+.achievement-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7be3b4, #ffd68f);
+}
+
+.achievement-count {
+  color: var(--faint);
+  font-size: 0.57rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.achievement-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--faint);
+  font-size: 0.55rem;
+  margin-top: 2px;
+}
+
+.achievement-reward svg {
+  color: var(--gold);
+  opacity: 0.65;
+}
+
+.achievement-reward svg:first-child {
+  color: var(--sky);
+}
+
+.achievement-claim {
+  min-height: 29px;
+  padding: 4px 9px;
+  font-size: 0.62rem;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+.achievement-claimed {
+  color: var(--faint);
+  font-size: 0.6rem;
+  flex-shrink: 0;
+}
+
+/* stats */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.stat-tile {
+  padding: 11px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(140deg, rgba(37, 30, 58, 0.75), rgba(21, 17, 38, 0.9));
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-tile-icon {
+  position: absolute;
+  top: 9px;
+  inset-inline-end: 9px;
+  color: rgba(169, 240, 207, 0.35);
+}
+
+.stat-tile-value {
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  font-weight: 600;
+  color: #f2fffa;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-tile-label {
+  color: var(--faint);
+  font-size: 0.62rem;
+  line-height: 1.3;
+}
+
+/* ---------------------------------------------------------------- */
+/* Small-screen tuning                                              */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 355px) {
+  .shop-grid,
+  .decor-grid,
+  .spirit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-card-art {
+    height: 80px;
+  }
+
+  .shop-card-art .plant-art {
+    width: 74px;
+    height: 96px;
+  }
+
+  .decor-card-art {
+    height: 78px;
+  }
+
+  .spirit-card-art {
+    height: 74px;
+  }
+
+  .spirit-card-art .spirit-art {
+    width: 80px;
+    height: 80px;
+  }
+
+  .dock-label {
+    font-size: 0.55rem;
+  }
+
+  .currency {
+    padding: 0 8px 0 6px;
+    font-size: 0.76rem;
+    gap: 4px;
+  }
+}
