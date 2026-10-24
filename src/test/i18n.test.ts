@@ -41,7 +41,7 @@ describe('dictionary completeness', () => {
       expect(tales, code).toHaveLength(17);
       tales.forEach((tale, i) => {
         expect(tale.title.length, `${code} ${i + 1} title`).toBeGreaterThan(0);
-        expect(tale.body, `${code} ${i + 1} body`).toHaveLength(2);
+        expect(tale.body.length, `${code} ${i + 1} body`).toBeGreaterThanOrEqual(3);
         expect(tale.end.length, `${code} ${i + 1} end`).toBeGreaterThan(10);
         if (code !== 'en') expect(tale.body[0], `${code} ${i + 1}`).not.toBe(TALES.en[i].body[0]);
       });
