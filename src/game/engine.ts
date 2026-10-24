@@ -85,8 +85,14 @@ export function createNewSave(now: number, locale: string | null = null): SaveSt
     chaptersRead: [],
     lastChapterSeen: 0,
     daily: { lastClaim: 0, streak: 0, totalClaims: 0 },
-    night: { date: '', tasks: [], slept: false },
+    night: { date: '', tasks: [], slept: false, fireflies: 0 },
     nightsCleared: 0,
+    nightStreak: 0,
+    nightFreezes: 0,
+    lastClearedDate: '',
+    gratitude: [],
+    sleepLog: [],
+    favTale: 0,
     moonwell: { date: localDateKey(now), charges: 3 },
     settings: {
       sound: true,
@@ -94,6 +100,7 @@ export function createNewSave(now: number, locale: string | null = null): SaveSt
       haptics: true,
       reducedMotion: false,
       largeText: false,
+      bedtime: '',
     },
     stats: {
       harvests: 0,
@@ -109,6 +116,10 @@ export function createNewSave(now: number, locale: string | null = null): SaveSt
       rareHarvests: 0,
       watered: 0,
       tales: 0,
+      breaths: 0,
+      reflections: 0,
+      fireflies: 0,
+      bestNightStreak: 0,
     },
     flags: { metSpirit: null, sawHarmony: false, harvestedFirst: false },
   };
@@ -138,6 +149,7 @@ export function bonusesFor(save: SaveState): Bonuses {
     bonuses[def.passive] += value;
   }
   bonuses.dew += harmonyOf(save) * 0.004;
+  if (save.night.date && weatherOf(save.night.date) === 'rain') bonuses.growth += 0.1;
   return bonuses;
 }
 
@@ -256,7 +268,8 @@ export function harvestPlant(
   const progress = growthOf(def, plot.plant.plantedAt, appliedWater, now, bonuses);
   if (!progress.ripe) return null;
 
-  const crops = rollYield(def, appliedWater, bonuses, rng);
+  const rolled = rollYield(def, appliedWater, bonuses, rng);
+  const crops = isNightBloom(now) ? Math.max(rolled + 1, Math.round(rolled * 1.25)) : rolled;
   const stardustChance = 0.03 + bonuses.stardust + def.tier * 0.012;
   const bonusStardust = rng() < stardustChance;
   const stardust = bonusStardust ? (def.tier >= 4 ? 2 : 1) : 0;
@@ -493,6 +506,10 @@ export function nightMetric(save: SaveState, id: NightTaskId): number {
       return save.stats.ordersDone;
     case 'tale':
       return save.stats.tales;
+    case 'breathe':
+      return save.stats.breaths;
+    case 'reflect':
+      return save.stats.reflections;
   }
 }
 
@@ -521,7 +538,7 @@ function nightTarget(id: NightTaskId, level: number): number {
 export function planNight(save: SaveState, now: number): boolean {
   const date = localDateKey(now);
   if (save.night.date === date) return false;
-  const pool: NightTaskId[] = ['plant', 'water', 'harvest'];
+  const pool: NightTaskId[] = ['plant', 'water', 'harvest', 'breathe', 'reflect'];
   if (SPIRIT_ORDER.some((id) => save.spirits[id]?.unlocked)) pool.push('feed');
   if (save.orders.length > 0) pool.push('order');
   const seed = hashString(`${date}:${save.nightsCleared}`);
@@ -530,8 +547,61 @@ export function planNight(save: SaveState, now: number): boolean {
   const second = rest[(seed >>> 8) % rest.length];
   const ids: NightTaskId[] = [first, second, 'tale'];
   const tasks: NightTask[] = ids.map((id) => ({ id, target: nightTarget(id, save.level), base: nightMetric(save, id) }));
-  save.night = { date, tasks, slept: false };
+  save.night = { date, tasks, slept: false, fireflies: 0 };
   return true;
+}
+
+/** Which tasks tomorrow's plan will hold, for the "tomorrow" teaser. Same rules, on a throwaway copy. */
+export function previewNight(save: SaveState, now: number): NightTaskId[] {
+  const copy = JSON.parse(JSON.stringify(save)) as SaveState;
+  planNight(copy, now + DAY_MS);
+  return copy.night.tasks.map((task) => task.id);
+}
+
+/* ------------------------------------------------------------------ */
+/* Moon, weather and the night streak                                  */
+/* ------------------------------------------------------------------ */
+
+export type MoonPhase = 'new' | 'waxing' | 'full' | 'waning';
+
+function dateFromKey(key: string): Date {
+  const [y, m, d] = key.split('-').map(Number);
+  return new Date(y, (m ?? 1) - 1, d ?? 1, 12);
+}
+
+export function addDaysToKey(key: string, days: number): string {
+  return localDateKey(dateFromKey(key).getTime() + days * DAY_MS);
+}
+
+/** Phase of the real moon on a local date (mean synodic month; good to about a day). */
+export function moonPhaseOf(key: string): MoonPhase {
+  const SYNODIC = 29.530588;
+  const REFERENCE_NEW_MOON = Date.UTC(2000, 0, 6, 18, 14);
+  const cycle = ((((dateFromKey(key).getTime() - REFERENCE_NEW_MOON) / DAY_MS) % SYNODIC) + SYNODIC) % SYNODIC;
+  const phase = cycle / SYNODIC;
+  if (phase < 0.0625 || phase >= 0.9375) return 'new';
+  if (phase >= 0.4375 && phase < 0.5625) return 'full';
+  return phase < 0.5 ? 'waxing' : 'waning';
+}
+
+export type Weather = 'clear' | 'rain' | 'fog' | 'starfall';
+
+/** Tonight's sky, the same for everyone on a given date. */
+export function weatherOf(key: string): Weather {
+  const roll = hashString(`sky:${key}`) % 8;
+  return roll < 4 ? 'clear' : roll < 6 ? 'rain' : roll === 6 ? 'fog' : 'starfall';
+}
+
+export const MAX_FIREFLIES = 10;
+
+export function fireflyCap(key: string): number {
+  return weatherOf(key) === 'starfall' ? MAX_FIREFLIES + 5 : MAX_FIREFLIES;
+}
+
+/** Flowers harvested late at night give a quarter more. */
+export function isNightBloom(now: number): boolean {
+  const hour = new Date(now).getHours();
+  return hour >= 22 || hour < 2;
 }
 
 export interface NightTaskProgress extends NightTask {
@@ -552,19 +622,50 @@ export function nightPlanDone(save: SaveState): boolean {
 }
 
 export function nightReward(save: SaveState): { dew: number; stardust: number } {
-  return { dew: 80 + 15 * save.level, stardust: 1 + ((save.nightsCleared + 1) % 3 === 0 ? 1 : 0) };
+  const full = save.night.date !== '' && moonPhaseOf(save.night.date) === 'full';
+  const base = 80 + 15 * save.level;
+  return {
+    dew: full ? Math.round(base * 1.5) : base,
+    stardust: 1 + ((save.nightsCleared + 1) % 3 === 0 ? 1 : 0) + (full ? 1 : 0),
+  };
 }
 
-/** Finish the night: only possible once every task is done. Returns the reward, or null. */
-export function sleepNight(save: SaveState): { dew: number; stardust: number } | null {
+export interface SleepResult {
+  dew: number;
+  stardust: number;
+  streak: number;
+  usedFreeze: boolean;
+  weekGift: boolean;
+}
+
+/** Finish the night: only possible once every task is done. Updates the streak, spending a moon freeze for one missed night. */
+export function sleepNight(save: SaveState): SleepResult | null {
   if (save.night.slept || !nightPlanDone(save)) return null;
+  const date = save.night.date;
   const reward = nightReward(save);
+  let usedFreeze = false;
+  if (save.lastClearedDate === addDaysToKey(date, -1)) {
+    save.nightStreak += 1;
+  } else if (save.lastClearedDate === addDaysToKey(date, -2) && save.nightFreezes > 0) {
+    save.nightFreezes -= 1;
+    save.nightStreak += 1;
+    usedFreeze = true;
+  } else {
+    save.nightStreak = 1;
+  }
+  const weekGift = save.nightStreak % 7 === 0;
+  if (weekGift) {
+    save.nightFreezes = Math.min(2, save.nightFreezes + 1);
+    reward.stardust += 3;
+  }
+  save.lastClearedDate = date;
+  save.stats.bestNightStreak = Math.max(save.stats.bestNightStreak, save.nightStreak);
   save.night.slept = true;
   save.nightsCleared += 1;
   save.dew += reward.dew;
   save.stardust += reward.stardust;
   save.stats.dewEarned += reward.dew;
-  return reward;
+  return { ...reward, streak: save.nightStreak, usedFreeze, weekGift };
 }
 
 export function moonwellCharges(save: SaveState, now: number): number {

@@ -21,6 +21,7 @@ import {
   moonwellCharges,
   nextGoalKey,
   offerToSpirit,
+  fireflyCap,
   planNight,
   sleepNight,
   plotUnlockInfo,
@@ -49,6 +50,9 @@ export type Sheet =
   | { kind: 'book' }
   | { kind: 'night' }
   | { kind: 'sleep' }
+  | { kind: 'breathe' }
+  | { kind: 'reflect' }
+  | { kind: 'herbarium' }
   | { kind: 'achievements' }
   | { kind: 'basket' }
   | { kind: 'credits' }
@@ -70,6 +74,7 @@ interface BootInfo {
 }
 
 let toastId = 0;
+let bedtimeNoticeShown = false;
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
 const clone = (save: SaveState): SaveState => JSON.parse(JSON.stringify(save)) as SaveState;
@@ -135,6 +140,11 @@ export interface GameState {
   claimDaily: () => void;
   readChapter: (index: number) => void;
   countTale: () => void;
+  breathe: () => void;
+  reflect: (kind: 'thanks' | 'worry', text: string) => void;
+  catchFirefly: () => void;
+  logSleep: (ok: boolean) => void;
+  toggleFavTale: (index: number) => void;
   startSleep: (minutes: number) => void;
   wake: () => void;
   sleep: () => void;
@@ -251,6 +261,18 @@ export const useGame = create<GameState>((set, get) => {
         planNight(save, now);
         commit(save, { now });
         return;
+      }
+      const bedtime = get().save.settings.bedtime;
+      if (bedtime && !bedtimeNoticeShown && !get().save.night.slept) {
+        const [h, m] = bedtime.split(':').map(Number);
+        const d = new Date(now);
+        const minutes = d.getHours() * 60 + d.getMinutes();
+        const start = h * 60 + m;
+        // Only in the ninety minutes after bedtime, once per session.
+        if (minutes >= start && minutes < start + 90) {
+          bedtimeNoticeShown = true;
+          notify(t('toast.bedtime'), 'book', 'info');
+        }
       }
       set({ now });
     },
@@ -648,13 +670,59 @@ export const useGame = create<GameState>((set, get) => {
 
     sleep: () => {
       const save = clone(get().save);
-      const reward = sleepNight(save);
-      if (!reward) return;
-      commit(save, { lastReward: reward });
+      const result = sleepNight(save);
+      if (!result) return;
+      commit(save, { lastReward: result });
       audio.sfx('claim');
       audio.setTrack(save.nightsCleared);
       haptic([10, 40, 20], save.settings.haptics);
-      notify(t('toast.nightCleared', { dew: reward.dew }), 'gift');
+      notify(t('toast.nightCleared', { dew: result.dew }), 'gift');
+      if (result.usedFreeze) setTimeout(() => notify(t('night.freezeUsed'), 'stardust', 'info'), 600);
+      if (result.weekGift) setTimeout(() => notify(t('night.weekGift'), 'stardust'), 1200);
+    },
+
+    breathe: () => {
+      const save = clone(get().save);
+      save.stats.breaths += 1;
+      commit(save);
+      audio.sfx('reward');
+    },
+
+    reflect: (kind, text) => {
+      const line = text.trim().slice(0, 140);
+      if (!line) return;
+      const save = clone(get().save);
+      // A thankful line is kept on this device; a worry is only ever shown while it fades away.
+      if (kind === 'thanks') save.gratitude = [...save.gratitude, line].slice(-60);
+      save.stats.reflections += 1;
+      commit(save);
+      audio.sfx('claim');
+    },
+
+    catchFirefly: () => {
+      const save = clone(get().save);
+      if (save.night.fireflies >= fireflyCap(save.night.date)) return;
+      const dew = 3 + save.level;
+      save.night.fireflies += 1;
+      save.stats.fireflies += 1;
+      save.dew += dew;
+      save.stats.dewEarned += dew;
+      commit(save);
+      audio.sfx('tap');
+      haptic(6, save.settings.haptics);
+    },
+
+    logSleep: (ok) => {
+      const save = clone(get().save);
+      const today = localDateKey(Date.now());
+      save.sleepLog = [...save.sleepLog.filter((e) => e.date !== today), { date: today, ok }].slice(-60);
+      commit(save);
+    },
+
+    toggleFavTale: (index) => {
+      const save = clone(get().save);
+      save.favTale = save.favTale === index ? 0 : index;
+      commit(save);
     },
 
     completeOnboarding: (locale) => {

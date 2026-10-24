@@ -5,6 +5,9 @@ import StorySheet from './StorySheet';
 import BookSheet from './BookSheet';
 import NightSheet from './NightSheet';
 import SleepSheet from './SleepSheet';
+import BreatheSheet from './BreatheSheet';
+import ReflectSheet from './ReflectSheet';
+import HerbariumSheet from './HerbariumSheet';
 import SettingsSheet from './SettingsSheet';
 import { AchievementsSheet, CreditsSheet, DailySheet, OfflineSheet, PrivacySheet } from './MetaSheets';
 
@@ -27,6 +30,12 @@ export default function SheetHost() {
       return <BookSheet key="book" />;
     case 'night':
       return <NightSheet key="night" />;
+    case 'breathe':
+      return <BreatheSheet key="breathe" />;
+    case 'reflect':
+      return <ReflectSheet key="reflect" />;
+    case 'herbarium':
+      return <HerbariumSheet key="herbarium" />;
     case 'sleep':
       return <SleepSheet key="sleep" />;
     case 'settings':

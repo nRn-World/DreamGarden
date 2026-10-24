@@ -21,6 +21,9 @@ export default function JournalScreen() {
   const days = Math.max(1, Math.ceil((now - save.createdAt) / DAY_MS));
 
   const stats: { key: DictKey; value: number; icon: IconName }[] = [
+    { key: 'stats.nights', value: save.nightsCleared, icon: 'moon' },
+    { key: 'stats.bestStreak', value: save.stats.bestNightStreak, icon: 'moon' },
+    { key: 'stats.breaths', value: save.stats.breaths, icon: 'leaf' },
     { key: 'journal.stats.harvests', value: save.stats.harvests, icon: 'leaf' },
     { key: 'journal.stats.orders', value: save.stats.ordersDone, icon: 'wish' },
     { key: 'journal.stats.spirits', value: SPIRIT_ORDER.filter((id) => save.spirits[id]?.unlocked).length, icon: 'spirit' },

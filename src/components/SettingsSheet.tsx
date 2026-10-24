@@ -99,6 +99,23 @@ export default function SettingsSheet() {
       </section>
 
       <section className="settings-section">
+        <h3 className="settings-heading">{t('settings.bedtime')}</h3>
+        <p className="settings-note">{t('settings.bedtimeHint')}</p>
+        <div className="settings-buttons">
+          <input
+            type="time"
+            className="reflect-input bedtime-input"
+            value={save.settings.bedtime}
+            aria-label={t('settings.bedtime')}
+            onChange={(event) => setSettings({ bedtime: event.target.value })}
+          />
+          <button type="button" className="btn btn-soft" onClick={() => setSettings({ bedtime: '' })} disabled={!save.settings.bedtime}>
+            {t('settings.bedtimeOff')}
+          </button>
+        </div>
+      </section>
+
+      <section className="settings-section">
         <h3 className="settings-heading">{t('settings.data')}</h3>
         <p className="settings-note">{t('settings.dataBody')}</p>
         <div className="settings-buttons">

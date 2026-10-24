@@ -75,6 +75,7 @@ export default function TrailMap() {
               <span className="trail-label">
                 <span className="trail-kicker">
                   {isHere ? t('book.here') : fresh ? t('book.new') : t('book.level', { n: chapter.index })}
+                  {save.favTale === chapter.index ? ' ★' : ''}
                 </span>
                 <span className="trail-title">{unlocked && tale ? tale.title : t('book.locked', { n: chapter.index })}</span>
               </span>

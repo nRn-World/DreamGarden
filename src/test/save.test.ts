@@ -135,6 +135,7 @@ describe('save repair', () => {
       haptics: false,
       reducedMotion: true,
       largeText: false,
+      bedtime: '',
     });
     expect(repaired.locale).toBe('xx');
   });

@@ -145,6 +145,8 @@ class DreamAudio {
 
   private ensure(): AudioContext | null {
     if (this.ctx) return this.ctx;
+    // ?mute=1 keeps the game silent while it is being built and tested.
+    if (typeof location !== 'undefined' && new URLSearchParams(location.search).get('mute') === '1') return null;
     try {
       const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!Ctor) return null;

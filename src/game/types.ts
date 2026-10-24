@@ -115,6 +115,8 @@ export interface Settings {
   haptics: boolean;
   reducedMotion: boolean;
   largeText: boolean;
+  /** Local time like "22:00" for a gentle in-app reminder; empty when off. */
+  bedtime: string;
 }
 
 export interface Stats {
@@ -130,11 +132,15 @@ export interface Stats {
   boostsUsed: number;
   rareHarvests: number;
   watered: number;
+  breaths: number;
+  reflections: number;
+  fireflies: number;
+  bestNightStreak: number;
   /** Times a tale was opened, new or re-read; feeds the nightly "read a tale" task. */
   tales: number;
 }
 
-export type NightTaskId = 'plant' | 'water' | 'harvest' | 'feed' | 'order' | 'tale';
+export type NightTaskId = 'plant' | 'water' | 'harvest' | 'feed' | 'order' | 'tale' | 'breathe' | 'reflect';
 
 export interface NightTask {
   id: NightTaskId;
@@ -148,6 +154,8 @@ export interface NightState {
   date: string;
   tasks: NightTask[];
   slept: boolean;
+  /** Fireflies caught tonight; capped so the mini-game stays a calm extra. */
+  fireflies: number;
 }
 
 export interface DailyState {
@@ -183,6 +191,15 @@ export interface SaveState {
   daily: DailyState;
   night: NightState;
   nightsCleared: number;
+  nightStreak: number;
+  /** Moon freezes forgive one missed night; one is earned every seven nights in a row. */
+  nightFreezes: number;
+  lastClearedDate: string;
+  /** Short thankful lines, kept only on this device. */
+  gratitude: string[];
+  sleepLog: { date: string; ok: boolean }[];
+  /** Favourite tale index, 0 for none. */
+  favTale: number;
   moonwell: { date: string; charges: number };
   settings: Settings;
   stats: Stats;

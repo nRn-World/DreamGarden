@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CHAPTERS, TALE_COUNT } from '../game/content/progression';
 import { useGame } from '../game/store';
 import { formatNumber, makeT } from '../i18n';
@@ -12,6 +12,8 @@ export default function StorySheet({ index }: { index: number }) {
   const countTale = useGame((s) => s.countTale);
   const openSheet = useGame((s) => s.openSheet);
   const closeSheet = useGame((s) => s.closeSheet);
+  const toggleFavTale = useGame((s) => s.toggleFavTale);
+  const [speaking, setSpeaking] = useState(false);
   const locale = save.locale ?? 'en';
   const t = makeT(locale);
   const chapter = CHAPTERS.find((c) => c.index === index);
@@ -28,7 +30,25 @@ export default function StorySheet({ index }: { index: number }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, unlocked]);
 
+  useEffect(() => () => window.speechSynthesis?.cancel(), []);
+
   if (!chapter || !tale) return null;
+
+  const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window && save.settings.sound;
+  const toggleSpeech = () => {
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+      return;
+    }
+    const voiceLang: Record<string, string> = { en: 'en-GB', sv: 'sv-SE', tr: 'tr-TR', es: 'es-ES', ar: 'ar-SA', fr: 'fr-FR', ja: 'ja-JP' };
+    const utterance = new SpeechSynthesisUtterance([tale.title, ...tale.body, tale.end].join('. '));
+    utterance.lang = voiceLang[locale] ?? 'en-GB';
+    utterance.rate = 0.85;
+    utterance.onend = () => setSpeaking(false);
+    window.speechSynthesis.speak(utterance);
+    setSpeaking(true);
+  };
 
   return (
     <SheetFrame
@@ -49,6 +69,18 @@ export default function StorySheet({ index }: { index: number }) {
 
       {unlocked ? (
         <>
+          <div className="story-tools">
+            {canSpeak && (
+              <button type="button" className="sleep-chip" aria-pressed={speaking} onClick={toggleSpeech}>
+                <Icon name="sound" size={14} />
+                {speaking ? t('tale.stop') : t('tale.listen')}
+              </button>
+            )}
+            <button type="button" className="sleep-chip" aria-pressed={save.favTale === index} onClick={() => toggleFavTale(index)}>
+              <Icon name="sparkle" size={14} />
+              {save.favTale === index ? t('tale.unfavorite') : t('tale.favorite')}
+            </button>
+          </div>
           <h3 className="story-heading">{tale.title}</h3>
           {tale.body.map((paragraph, i) => (
             <p key={i} className="story-body">

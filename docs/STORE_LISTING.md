@@ -158,3 +158,14 @@ first-run, core loop, collection, emotional hook, story, comfort.
 - [x] 1024 × 500 Play feature graphic (`store/feature-graphic.png`)
 - [ ] Localized screenshots for Swedish, Turkish, Spanish, Arabic, French, Japanese
 - [ ] Store preview video (optional, 15–30 s, no voice-over needed)
+
+
+## Search keywords (all seven languages)
+
+- en: sleep game, bedtime game, cozy garden, relaxing, calm, lullaby, night routine
+- sv: sovspel, läggdags, mysigt, avslappning, vaggvisa, kvällsrutin, trädgård
+- tr: uyku oyunu, yatmadan önce, sakin, rahatlatıcı, ninni, bahçe
+- es: juego para dormir, antes de dormir, relajante, jardín, nana, rutina nocturna
+- ar: لعبة قبل النوم، استرخاء، حديقة، تهويدة، روتين الليل
+- fr: jeu avant de dormir, relaxant, jardin, berceuse, routine du soir
+- ja: 寝る前のゲーム、癒し、庭、子守歌、夜のルーティン

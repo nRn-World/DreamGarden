@@ -17,6 +17,7 @@ import {
   inventoryValue,
   levelXpNeeded,
   makeOrders,
+  moonPhaseOf,
   moonwellCharges,
   nextGoalKey,
   nightPlanDone,
@@ -27,6 +28,7 @@ import {
   sellCrops,
   sleepNight,
   syncLevelUnlocks,
+  weatherOf,
 } from '../game/engine';
 import { PLANTS } from '../game/content/plants';
 import { DECORATIONS, SPIRITS } from '../game/content/spirits';
@@ -258,6 +260,8 @@ describe('the nightly plan', () => {
       if (task.id === 'feed') save.spirits.mossling.offerings += task.target;
       if (task.id === 'order') save.stats.ordersDone += task.target;
       if (task.id === 'tale') save.stats.tales += task.target;
+      if (task.id === 'breathe') save.stats.breaths += task.target;
+      if (task.id === 'reflect') save.stats.reflections += task.target;
     }
     expect(nightPlanDone(save)).toBe(true);
   });
@@ -274,5 +278,41 @@ describe('the nightly plan', () => {
     expect(save.nightsCleared).toBe(1);
     expect(sleepNight(save)).toBeNull();
     expect(save.nightsCleared).toBe(1);
+  });
+});
+
+describe('streaks, moon and sky', () => {
+  function finishedNight(save: ReturnType<typeof fresh>, now: number) {
+    planNight(save, now);
+    save.night.tasks = save.night.tasks.map((t) => ({ ...t, base: t.base - t.target }));
+    return sleepNight(save);
+  }
+  const DAY = 24 * 60 * 60 * 1000;
+
+  it('grows the streak on consecutive nights and resets after a gap', () => {
+    const save = fresh();
+    expect(finishedNight(save, NOW)?.streak).toBe(1);
+    expect(finishedNight(save, NOW + DAY)?.streak).toBe(2);
+    expect(finishedNight(save, NOW + 5 * DAY)?.streak).toBe(1);
+    expect(save.stats.bestNightStreak).toBe(2);
+  });
+
+  it('spends a moon freeze to forgive exactly one missed night and earns one per week', () => {
+    const save = fresh();
+    for (let i = 0; i < 7; i += 1) finishedNight(save, NOW + i * DAY);
+    expect(save.nightStreak).toBe(7);
+    expect(save.nightFreezes).toBe(1);
+    const result = finishedNight(save, NOW + 8 * DAY);
+    expect(result?.usedFreeze).toBe(true);
+    expect(result?.streak).toBe(8);
+    expect(save.nightFreezes).toBe(0);
+  });
+
+  it('knows the real moon and gives the same sky to everyone on a date', () => {
+    expect(moonPhaseOf('2000-01-06')).toBe('new');
+    expect(moonPhaseOf('2024-06-22')).toBe('full');
+    expect(weatherOf('2026-10-24')).toBe(weatherOf('2026-10-24'));
+    const skies = new Set(Array.from({ length: 60 }, (_, i) => weatherOf(`2026-11-${(i % 28) + 1}`)));
+    expect(skies.size).toBeGreaterThan(1);
   });
 });

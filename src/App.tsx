@@ -8,6 +8,7 @@ import SheetHost from './components/SheetHost';
 import Toasts from './components/Toasts';
 import Tutorial from './components/Tutorial';
 import SleepOverlay from './components/SleepOverlay';
+import Fireflies from './components/Fireflies';
 import Onboarding from './screens/Onboarding';
 import Title from './screens/Title';
 import SeedsScreen from './screens/SeedsScreen';
@@ -16,6 +17,7 @@ import SpiritsScreen from './screens/SpiritsScreen';
 import JournalScreen from './screens/JournalScreen';
 import { useGame } from './game/store';
 import { audio } from './game/audio';
+import { weatherOf } from './game/engine';
 import { asset } from './lib/assets';
 
 function Splash() {
@@ -75,6 +77,17 @@ export default function App() {
     };
   }, [loaded, tick]);
 
+  // After 21:00 the whole game warms slightly, which is easier on tired eyes.
+  useEffect(() => {
+    const apply = () => {
+      const hour = new Date().getHours();
+      document.documentElement.dataset.late = hour >= 21 || hour < 5 ? '1' : '0';
+    };
+    apply();
+    const id = window.setInterval(apply, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+
   useEffect(() => {
     const unlock = () => audio.unlock();
     window.addEventListener('pointerdown', unlock, { once: true });
@@ -105,7 +118,12 @@ export default function App() {
   const renderScreen = () => {
     switch (screen) {
       case 'garden':
-        return <GardenScene />;
+        return (
+          <>
+            <GardenScene />
+            <Fireflies />
+          </>
+        );
       case 'seeds':
         return <SeedsScreen />;
       case 'wishes':
@@ -120,7 +138,11 @@ export default function App() {
   };
 
   return (
-    <div className="app-shell" data-screen={!save.onboarded ? 'onboarding' : !entered ? 'title' : screen}>
+    <div
+      className="app-shell"
+      data-screen={!save.onboarded ? 'onboarding' : !entered ? 'title' : screen}
+      data-weather={save.night.date ? weatherOf(save.night.date) : 'clear'}
+    >
       <Backdrop />
       <div className="app-frame">
         {!save.onboarded ? (

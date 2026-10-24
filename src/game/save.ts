@@ -179,11 +179,27 @@ export function repairSave(raw: unknown, now: number): SaveState {
   }
 
   base.nightsCleared = Math.round(number(raw.nightsCleared, 0, 0, 1e6));
+  base.nightStreak = Math.round(number(raw.nightStreak, 0, 0, 1e6));
+  base.nightFreezes = Math.round(number(raw.nightFreezes, 0, 0, 2));
+  base.lastClearedDate = typeof raw.lastClearedDate === 'string' ? raw.lastClearedDate : '';
+  base.favTale = Math.round(number(raw.favTale, 0, 0, 17));
+  if (Array.isArray(raw.gratitude)) {
+    base.gratitude = raw.gratitude
+      .filter((line): line is string => typeof line === 'string')
+      .map((line) => line.slice(0, 140))
+      .slice(-60);
+  }
+  if (Array.isArray(raw.sleepLog)) {
+    base.sleepLog = raw.sleepLog
+      .filter((e): e is { date: string; ok: boolean } => isObject(e) && typeof e.date === 'string' && typeof e.ok === 'boolean')
+      .slice(-60);
+  }
   if (isObject(raw.night) && typeof raw.night.date === 'string' && Array.isArray(raw.night.tasks)) {
-    const ids: NightTaskId[] = ['plant', 'water', 'harvest', 'feed', 'order', 'tale'];
+    const ids: NightTaskId[] = ['plant', 'water', 'harvest', 'feed', 'order', 'tale', 'breathe', 'reflect'];
     base.night = {
       date: raw.night.date,
       slept: bool(raw.night.slept),
+      fireflies: Math.round(number(raw.night.fireflies, 0, 0, 99)),
       tasks: raw.night.tasks
         .filter((t): t is Record<string, unknown> => isObject(t) && ids.includes(t.id as NightTaskId))
         .slice(0, 3)
@@ -218,6 +234,10 @@ export function repairSave(raw: unknown, now: number): SaveState {
       rareHarvests: Math.round(number(s.rareHarvests, 0, 0, 1e9)),
       watered: Math.round(number(s.watered, 0, 0, 1e9)),
       tales: Math.round(number(s.tales, 0, 0, 1e9)),
+      breaths: Math.round(number(s.breaths, 0, 0, 1e9)),
+      reflections: Math.round(number(s.reflections, 0, 0, 1e9)),
+      fireflies: Math.round(number(s.fireflies, 0, 0, 1e9)),
+      bestNightStreak: Math.round(number(s.bestNightStreak, 0, 0, 1e6)),
     };
     if (isObject(s.harvestsByPlant)) {
       for (const id of PLANT_ORDER) {
@@ -237,6 +257,7 @@ export function repairSave(raw: unknown, now: number): SaveState {
       haptics: bool(s.haptics, true),
       reducedMotion: bool(s.reducedMotion, false),
       largeText: bool(s.largeText, false),
+      bedtime: typeof s.bedtime === 'string' && /^\d{2}:\d{2}$/.test(s.bedtime) ? s.bedtime : '',
     };
   }
 
