@@ -82,6 +82,12 @@ export default function NightSheet() {
           </button>
         </div>
       )}
+      <div className="sheet-actions">
+        <button type="button" className="btn btn-soft" onClick={() => openSheet({ kind: 'sleep' })}>
+          <Icon name="sound" size={16} />
+          {t('sleep.title')}
+        </button>
+      </div>
       <p className="night-count">{t('night.clearedCount', { n: save.nightsCleared })}</p>
     </SheetFrame>
   );

@@ -13,6 +13,9 @@ All notable changes to Dream Garden are documented here. The format follows
   against real counters. Finishing them lets you tuck the garden in for a gift.
 - Nine calm music tracks. Each cleared night moves to the next one; the original melody is track one.
 
+- Sleep mode: 5/10/20 minute timer that fades music out, optional rain, wind and deep-hum layers, and a near-black
+  screen that wakes on tap.
+
 ### Changed
 
 - Journal story tab now shows the trail map. The six old chapters were replaced by the 17 tales; saves are repaired and

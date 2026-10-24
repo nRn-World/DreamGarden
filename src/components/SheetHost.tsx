@@ -4,6 +4,7 @@ import SpiritSheet from './SpiritSheet';
 import StorySheet from './StorySheet';
 import BookSheet from './BookSheet';
 import NightSheet from './NightSheet';
+import SleepSheet from './SleepSheet';
 import SettingsSheet from './SettingsSheet';
 import { AchievementsSheet, CreditsSheet, DailySheet, OfflineSheet, PrivacySheet } from './MetaSheets';
 
@@ -26,6 +27,8 @@ export default function SheetHost() {
       return <BookSheet key="book" />;
     case 'night':
       return <NightSheet key="night" />;
+    case 'sleep':
+      return <SleepSheet key="sleep" />;
     case 'settings':
       return <SettingsSheet key="settings" />;
     case 'daily':

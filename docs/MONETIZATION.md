@@ -13,7 +13,7 @@ integration points are ready; the credentials are not something an agent can inv
 
 ### 1. Free, complete game (primary)
 
-- All 12 beds, 8 flowers, 6 spirits, 6 chapters and 12 achievements available for free.
+- All 12 beds, 8 flowers, 6 spirits, 17 tales and 12 achievements available for free.
 - No energy, no pay-to-skip timers, no loot boxes.
 - This is the acquisition and review story: "a cozy game with no ads".
 - Cost to the owner: static hosting (often free or a few dollars a month). No server.

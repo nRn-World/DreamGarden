@@ -4,6 +4,8 @@
  * offline-capable. Everything is gentle: soft pads, glass bells and water.
  */
 
+export type AmbienceKind = 'rain' | 'wind' | 'brown';
+
 type Sfx = 'tap' | 'open' | 'plant' | 'water' | 'harvest' | 'reward' | 'level' | 'error' | 'claim';
 
 class DreamAudio {
@@ -15,6 +17,8 @@ class DreamAudio {
   private musicTimer: number | null = null;
   private chordIndex = 0;
   private track = 0;
+  private ambience = new Map<AmbienceKind, { source: AudioBufferSourceNode; gain: GainNode }>();
+  private fadeTimer: number | null = null;
   private chordVoices: { osc: OscillatorNode; gain: GainNode }[] = [];
   private soundOn = true;
   private musicOn = true;
@@ -30,6 +34,91 @@ class DreamAudio {
     }
     if (settings.music && this.started) this.startMusicLoop();
     if (!settings.music) this.stopMusicLoop();
+  }
+
+  /** Looping noise layer for falling asleep. Needs a prior user gesture, like all audio. */
+  setAmbience(kind: AmbienceKind, on: boolean): void {
+    const ctx = this.ensure();
+    if (!ctx || !this.master) return;
+    const current = this.ambience.get(kind);
+    if (!on) {
+      if (current) {
+        current.gain.gain.setTargetAtTime(0, ctx.currentTime, 0.6);
+        current.source.stop(ctx.currentTime + 3);
+        this.ambience.delete(kind);
+      }
+      return;
+    }
+    if (current) return;
+    if (ctx.state === 'suspended') void ctx.resume();
+    const length = ctx.sampleRate * 4;
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < length; i += 1) {
+      const white = Math.random() * 2 - 1;
+      // Brown noise integrates white noise; rain and wind are filtered below.
+      last = kind === 'brown' ? (last + 0.02 * white) / 1.02 : white;
+      data[i] = kind === 'brown' ? last * 3.5 : white;
+    }
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = kind === 'rain' ? 'bandpass' : 'lowpass';
+    filter.frequency.value = kind === 'rain' ? 3200 : kind === 'wind' ? 420 : 900;
+    filter.Q.value = kind === 'rain' ? 0.5 : 0.7;
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+    gain.gain.setTargetAtTime(kind === 'rain' ? 0.16 : kind === 'wind' ? 0.2 : 0.22, ctx.currentTime, 1.2);
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.master);
+    if (kind === 'wind') {
+      // Slow swell so the wind breathes instead of hissing.
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 0.12;
+      const depth = ctx.createGain();
+      depth.gain.value = 180;
+      lfo.connect(depth);
+      depth.connect(filter.frequency);
+      lfo.start();
+      source.addEventListener('ended', () => lfo.stop());
+    }
+    source.start();
+    this.ambience.set(kind, { source, gain });
+  }
+
+  hasAmbience(kind: AmbienceKind): boolean {
+    return this.ambience.has(kind);
+  }
+
+  /** Fade everything to silence over `minutes`, then pause the audio clock. */
+  startSleepFade(minutes: number): void {
+    const ctx = this.ensure();
+    if (!ctx || !this.master) return;
+    this.cancelSleepFade();
+    const now = ctx.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setValueAtTime(this.master.gain.value, now);
+    this.master.gain.linearRampToValueAtTime(0.0001, now + minutes * 60);
+    this.fadeTimer = window.setTimeout(() => {
+      this.fadeTimer = null;
+      void ctx.suspend();
+    }, minutes * 60_000 + 500);
+  }
+
+  /** Undo a sleep fade: volume back to the player's setting, audio running again. */
+  cancelSleepFade(): void {
+    if (this.fadeTimer !== null) {
+      window.clearTimeout(this.fadeTimer);
+      this.fadeTimer = null;
+    }
+    const ctx = this.ctx;
+    if (!ctx || !this.master) return;
+    if (ctx.state === 'suspended') void ctx.resume();
+    this.master.gain.cancelScheduledValues(ctx.currentTime);
+    this.master.gain.setTargetAtTime(this.soundOn ? 0.9 : 0, ctx.currentTime, 0.3);
   }
 
   /** Each cleared night brings the next melody; the list wraps. */

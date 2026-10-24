@@ -7,6 +7,7 @@ import LevelUpOverlay from './components/LevelUpOverlay';
 import SheetHost from './components/SheetHost';
 import Toasts from './components/Toasts';
 import Tutorial from './components/Tutorial';
+import SleepOverlay from './components/SleepOverlay';
 import Onboarding from './screens/Onboarding';
 import Title from './screens/Title';
 import SeedsScreen from './screens/SeedsScreen';
@@ -139,6 +140,7 @@ export default function App() {
         <SheetHost />
         <LevelUpOverlay />
         <Toasts />
+        <SleepOverlay />
 
       </div>
     </div>

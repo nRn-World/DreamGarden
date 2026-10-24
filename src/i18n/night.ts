@@ -44,6 +44,18 @@ const en = {
   'book.here': 'You are here',
   'book.locked': 'Reach level {n}',
   'book.theEnd': 'The End',
+  'sleep.title': 'Sleep mode',
+  'sleep.lead': 'Soft sounds, a fading melody and a dark screen. Close your eyes.',
+  'sleep.timer': 'Fade out after',
+  'sleep.minutes': '{n} min',
+  'sleep.ambience': 'Sounds',
+  'sleep.rain': 'Rain',
+  'sleep.wind': 'Wind',
+  'sleep.brown': 'Deep hum',
+  'sleep.start': 'Start sleep mode',
+  'sleep.left': '{time} left',
+  'sleep.wake': 'Tap to wake',
+  'sleep.goodnight': 'Good night',
 } as const;
 
 export type NightKey = keyof typeof en;
@@ -88,6 +100,18 @@ const sv: Texts = {
   'book.here': 'Du är här',
   'book.locked': 'Nå nivå {n}',
   'book.theEnd': 'Slut',
+  'sleep.title': 'Sovläge',
+  'sleep.lead': 'Mjuka ljud, en tonande melodi och mörk skärm. Blunda nu.',
+  'sleep.timer': 'Tona ut efter',
+  'sleep.minutes': '{n} min',
+  'sleep.ambience': 'Ljud',
+  'sleep.rain': 'Regn',
+  'sleep.wind': 'Vind',
+  'sleep.brown': 'Djup brummning',
+  'sleep.start': 'Starta sovläge',
+  'sleep.left': '{time} kvar',
+  'sleep.wake': 'Tryck för att vakna',
+  'sleep.goodnight': 'God natt',
 };
 
 const tr: Texts = {
@@ -129,6 +153,18 @@ const tr: Texts = {
   'book.here': 'Buradasın',
   'book.locked': 'Seviye {n} gerekli',
   'book.theEnd': 'Son',
+  'sleep.title': 'Uyku modu',
+  'sleep.lead': 'Yumuşak sesler, solan bir melodi ve karanlık ekran. Gözlerini kapat.',
+  'sleep.timer': 'Şu süre sonra kıs',
+  'sleep.minutes': '{n} dk',
+  'sleep.ambience': 'Sesler',
+  'sleep.rain': 'Yağmur',
+  'sleep.wind': 'Rüzgâr',
+  'sleep.brown': 'Derin uğultu',
+  'sleep.start': 'Uyku modunu başlat',
+  'sleep.left': '{time} kaldı',
+  'sleep.wake': 'Uyanmak için dokun',
+  'sleep.goodnight': 'İyi geceler',
 };
 
 const es: Texts = {
@@ -170,6 +206,18 @@ const es: Texts = {
   'book.here': 'Estás aquí',
   'book.locked': 'Llega al nivel {n}',
   'book.theEnd': 'Fin',
+  'sleep.title': 'Modo sueño',
+  'sleep.lead': 'Sonidos suaves, una melodía que se apaga y la pantalla oscura. Cierra los ojos.',
+  'sleep.timer': 'Apagar en',
+  'sleep.minutes': '{n} min',
+  'sleep.ambience': 'Sonidos',
+  'sleep.rain': 'Lluvia',
+  'sleep.wind': 'Viento',
+  'sleep.brown': 'Zumbido grave',
+  'sleep.start': 'Iniciar modo sueño',
+  'sleep.left': 'Quedan {time}',
+  'sleep.wake': 'Toca para despertar',
+  'sleep.goodnight': 'Buenas noches',
 };
 
 const ar: Texts = {
@@ -211,6 +259,18 @@ const ar: Texts = {
   'book.here': 'أنت هنا',
   'book.locked': 'ابلغ المستوى {n}',
   'book.theEnd': 'النهاية',
+  'sleep.title': 'وضع النوم',
+  'sleep.lead': 'أصوات ناعمة ولحن يخفت وشاشة معتمة. أغمض عينيك.',
+  'sleep.timer': 'خفوت بعد',
+  'sleep.minutes': '{n} د',
+  'sleep.ambience': 'الأصوات',
+  'sleep.rain': 'مطر',
+  'sleep.wind': 'ريح',
+  'sleep.brown': 'طنين عميق',
+  'sleep.start': 'ابدأ وضع النوم',
+  'sleep.left': 'متبقٍ {time}',
+  'sleep.wake': 'المس للاستيقاظ',
+  'sleep.goodnight': 'تصبح على خير',
 };
 
 const fr: Texts = {
@@ -252,6 +312,18 @@ const fr: Texts = {
   'book.here': 'Tu es ici',
   'book.locked': 'Atteins le niveau {n}',
   'book.theEnd': 'Fin',
+  'sleep.title': 'Mode sommeil',
+  'sleep.lead': 'Des sons doux, une mélodie qui s’éteint et un écran sombre. Ferme les yeux.',
+  'sleep.timer': 'Extinction après',
+  'sleep.minutes': '{n} min',
+  'sleep.ambience': 'Sons',
+  'sleep.rain': 'Pluie',
+  'sleep.wind': 'Vent',
+  'sleep.brown': 'Bourdonnement grave',
+  'sleep.start': 'Lancer le mode sommeil',
+  'sleep.left': 'Il reste {time}',
+  'sleep.wake': 'Touche pour te réveiller',
+  'sleep.goodnight': 'Bonne nuit',
 };
 
 const ja: Texts = {
@@ -293,6 +365,18 @@ const ja: Texts = {
   'book.here': '今ここ',
   'book.locked': 'レベル{n}で開きます',
   'book.theEnd': 'おしまい',
+  'sleep.title': 'おやすみモード',
+  'sleep.lead': 'やさしい音、消えていくメロディ、暗い画面。目を閉じましょう。',
+  'sleep.timer': 'フェードアウトまで',
+  'sleep.minutes': '{n}分',
+  'sleep.ambience': 'サウンド',
+  'sleep.rain': '雨',
+  'sleep.wind': '風',
+  'sleep.brown': '低いうなり',
+  'sleep.start': 'おやすみモードを始める',
+  'sleep.left': '残り{time}',
+  'sleep.wake': 'タップして起きる',
+  'sleep.goodnight': 'おやすみなさい',
 };
 
 export const nightTexts: Record<LocaleCode, Texts> = { en, sv, tr, es, ar, fr, ja };

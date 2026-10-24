@@ -48,6 +48,7 @@ export type Sheet =
   | { kind: 'story'; index: number }
   | { kind: 'book' }
   | { kind: 'night' }
+  | { kind: 'sleep' }
   | { kind: 'achievements' }
   | { kind: 'basket' }
   | { kind: 'credits' }
@@ -102,6 +103,8 @@ export interface GameState {
   levelUp: number | null;
   welcomeBack: { awayMs: number; ripe: number } | null;
   lastReward: { dew: number; stardust: number } | null;
+  /** End time of the running sleep timer; the screen stays dark until the player wakes it. */
+  sleepUntil: number | null;
 
   init: () => void;
   tick: () => void;
@@ -132,6 +135,8 @@ export interface GameState {
   claimDaily: () => void;
   readChapter: (index: number) => void;
   countTale: () => void;
+  startSleep: (minutes: number) => void;
+  wake: () => void;
   sleep: () => void;
   completeOnboarding: (locale: string) => void;
   advanceTutorial: (step: number) => void;
@@ -206,6 +211,7 @@ export const useGame = create<GameState>((set, get) => {
     levelUp: null,
     welcomeBack: null,
     lastReward: null,
+    sleepUntil: null,
 
     init: () => {
       if (get().loaded) return;
@@ -628,6 +634,16 @@ export const useGame = create<GameState>((set, get) => {
       const save = clone(get().save);
       save.stats.tales += 1;
       commit(save);
+    },
+
+    startSleep: (minutes) => {
+      audio.startSleepFade(minutes);
+      set({ sleepUntil: Date.now() + minutes * 60_000, sheet: null });
+    },
+
+    wake: () => {
+      audio.cancelSleepFade();
+      set({ sleepUntil: null });
     },
 
     sleep: () => {

@@ -32,7 +32,7 @@ gentle things. Plant a seed. Water it. Watch an impossible flower open under the
 
 Dream Garden is a calm, offline garden sim with no ads and no rush. Grow eight kinds of dream
 flowers across twelve garden beds, befriend six shy spirits, decorate your island, and follow a
-six-chapter story about the garden that was left waiting.
+17-tale story about the garden that was left waiting.
 
 **Grow at your own pace**
 Every flower grows in real time, even while you are away. Nothing wilts. Nothing is lost. Come back
@@ -65,7 +65,7 @@ cozy,garden,flowers,spirits,relaxing,offline,night,calm,story,farming,wholesome,
 
 ### What's new (1.0.0)
 
-The garden opens. Twelve beds, eight flowers, six spirits, six chapters and a quiet island to call
+The garden opens. Twelve beds, eight flowers, six spirits, 17 tales and a quiet island to call
 your own. Thank you for visiting.
 
 ## Swedish listing

@@ -44,7 +44,7 @@ objects and a timestamp. This is the boundary that makes balance changes safe.
 | `src/game/types.ts` | All domain types; no runtime code |
 | `src/game/content/plants.ts` | 8 flower definitions, palettes, grow times, yields, unlock levels |
 | `src/game/content/spirits.ts` | 6 spirits, bond offers, passives, 6 decorations |
-| `src/game/content/progression.ts` | Level curve, bed unlocks, 6 chapters, 12 achievements |
+| `src/game/content/progression.ts` | Level curve, bed unlocks, 17 tales, 12 achievements |
 | `src/game/engine.ts` | Growth math, harvest, selling, orders, XP, bonds, daily gifts, moonwell, next-goal |
 | `src/game/save.ts` | Versioned persistence, schema repair, backup recovery, import/export |
 | `src/game/store.ts` | Zustand store; user intents; debounced save; clock |

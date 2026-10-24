@@ -3,7 +3,7 @@
 **A cozy night-garden simulation. By nRnWorld.**
 
 Grow impossible flowers, befriend six shy dream spirits, decorate a floating island and uncover a
-gentle six-chapter mystery — a few minutes at a time, at your own pace.
+gentle 17-tale mystery — a few minutes at a time, at your own pace.
 
 Dream Garden is a complete, offline-first mobile web game built with React, TypeScript and Vite,
 installable as a PWA and ready to be wrapped with Capacitor for Google Play and the App Store.
@@ -14,7 +14,7 @@ installable as a PWA and ready to be wrapped with Capacitor for Google Play and 
 
 - **No ads, no tracking, no timers that punish you.** The whole campaign is playable for free.
 - **A meaningful action within 30 seconds.** Tap a bed, choose a seed, watch it grow.
-- **Gentle progression.** Twelve beds, eight flowers, six spirits, six story chapters, twelve
+- **Gentle progression.** Twelve beds, eight flowers, six spirits, 17 finished tales, a nightly plan, twelve
   achievements, daily gifts and decor — tuned to be finished in roughly two to three weeks of
   relaxed play, not gated behind paywalls.
 - **Your garden keeps growing while you are away,** but never wilts and never punishes absence.
