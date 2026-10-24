@@ -1,4 +1,4 @@
-import type { DecoId, Order, PlantId, Plot, SaveState, SpiritId } from './types';
+import type { DecoId, NightTaskId, Order, PlantId, Plot, SaveState, SpiritId } from './types';
 import { DECO_ORDER, SPIRIT_ORDER } from './content/spirits';
 import { PLANT_ORDER } from './content/plants';
 import { ACHIEVEMENTS, TOTAL_PLOTS } from './content/progression';
@@ -83,7 +83,7 @@ export function repairSave(raw: unknown, now: number): SaveState {
   base.xp = number(raw.xp, 0, 0, 1e9);
   base.dew = Math.round(number(raw.dew, 90, 0, 1e12));
   base.stardust = Math.round(number(raw.stardust, 2, 0, 1e9));
-  base.lastChapterSeen = number(raw.lastChapterSeen, 0, 0, 6);
+  base.lastChapterSeen = number(raw.lastChapterSeen, 0, 0, 17);
   base.ordersRefreshedAt = number(raw.ordersRefreshedAt, now, 0, now);
 
   const plantsFound = Array.isArray(raw.unlockedPlants)
@@ -167,7 +167,7 @@ export function repairSave(raw: unknown, now: number): SaveState {
       )
     : [];
   base.chaptersRead = Array.isArray(raw.chaptersRead)
-    ? Array.from(new Set(raw.chaptersRead.filter((n): n is number => typeof n === 'number' && n >= 1 && n <= 6)))
+    ? Array.from(new Set(raw.chaptersRead.filter((n): n is number => typeof n === 'number' && n >= 1 && n <= 17)))
     : [];
 
   if (isObject(raw.daily)) {
@@ -175,6 +175,23 @@ export function repairSave(raw: unknown, now: number): SaveState {
       lastClaim: number(raw.daily.lastClaim, 0, 0, now),
       streak: Math.round(number(raw.daily.streak, 0, 0, 1e6)),
       totalClaims: Math.round(number(raw.daily.totalClaims, 0, 0, 1e6)),
+    };
+  }
+
+  base.nightsCleared = Math.round(number(raw.nightsCleared, 0, 0, 1e6));
+  if (isObject(raw.night) && typeof raw.night.date === 'string' && Array.isArray(raw.night.tasks)) {
+    const ids: NightTaskId[] = ['plant', 'water', 'harvest', 'feed', 'order', 'tale'];
+    base.night = {
+      date: raw.night.date,
+      slept: bool(raw.night.slept),
+      tasks: raw.night.tasks
+        .filter((t): t is Record<string, unknown> => isObject(t) && ids.includes(t.id as NightTaskId))
+        .slice(0, 3)
+        .map((t) => ({
+          id: t.id as NightTaskId,
+          target: Math.round(number(t.target, 1, 1, 20)),
+          base: Math.round(number(t.base, 0, 0, 1e9)),
+        })),
     };
   }
 
@@ -195,10 +212,12 @@ export function repairSave(raw: unknown, now: number): SaveState {
       cropsSold: Math.round(number(s.cropsSold, 0, 0, 1e9)),
       dewEarned: number(s.dewEarned, 0, 0, 1e12),
       planted: Math.round(number(s.planted, 0, 0, 1e9)),
-      chaptersRead: Math.round(number(s.chaptersRead, 0, 0, 6)),
+      chaptersRead: Math.round(number(s.chaptersRead, 0, 0, 17)),
       dailyMaxStreak: Math.round(number(s.dailyMaxStreak, 0, 0, 1e6)),
       boostsUsed: Math.round(number(s.boostsUsed, 0, 0, 1e9)),
       rareHarvests: Math.round(number(s.rareHarvests, 0, 0, 1e9)),
+      watered: Math.round(number(s.watered, 0, 0, 1e9)),
+      tales: Math.round(number(s.tales, 0, 0, 1e9)),
     };
     if (isObject(s.harvestsByPlant)) {
       for (const id of PLANT_ORDER) {

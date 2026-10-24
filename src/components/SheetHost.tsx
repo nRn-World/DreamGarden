@@ -2,6 +2,8 @@ import { useGame } from '../game/store';
 import { BasketSheet, PlantSheet, PlotSheet, SeedSheet } from './SeedsSheets';
 import SpiritSheet from './SpiritSheet';
 import StorySheet from './StorySheet';
+import BookSheet from './BookSheet';
+import NightSheet from './NightSheet';
 import SettingsSheet from './SettingsSheet';
 import { AchievementsSheet, CreditsSheet, DailySheet, OfflineSheet, PrivacySheet } from './MetaSheets';
 
@@ -20,6 +22,10 @@ export default function SheetHost() {
       return <SpiritSheet key={`spirit-${sheet.id}`} id={sheet.id} />;
     case 'story':
       return <StorySheet key={`story-${sheet.index}`} index={sheet.index} />;
+    case 'book':
+      return <BookSheet key="book" />;
+    case 'night':
+      return <NightSheet key="night" />;
     case 'settings':
       return <SettingsSheet key="settings" />;
     case 'daily':

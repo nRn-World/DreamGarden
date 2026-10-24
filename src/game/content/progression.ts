@@ -1,13 +1,12 @@
 import type { AchievementDef, ChapterDef, Plot } from '../types';
 
-export const CHAPTERS: ChapterDef[] = [
-  { index: 1, unlockLevel: 1, rewardDew: 60, rewardStardust: 1 },
-  { index: 2, unlockLevel: 3, rewardDew: 140, rewardStardust: 2 },
-  { index: 3, unlockLevel: 6, rewardDew: 320, rewardStardust: 2 },
-  { index: 4, unlockLevel: 9, rewardDew: 700, rewardStardust: 3 },
-  { index: 5, unlockLevel: 13, rewardDew: 1500, rewardStardust: 4 },
-  { index: 6, unlockLevel: 17, rewardDew: 4000, rewardStardust: 8 },
-];
+/** One finished tale per level, 1-17. The last one is the finale. */
+export const TALE_COUNT = 17;
+
+export const CHAPTERS: ChapterDef[] = Array.from({ length: TALE_COUNT }, (_, i) => {
+  const n = i + 1;
+  return { index: n, unlockLevel: n, rewardDew: 40 + n * n * 14, rewardStardust: 1 + Math.floor(n / 3) };
+});
 
 export const ACHIEVEMENTS: AchievementDef[] = [
   { id: 'firstBloom', metric: 'harvests', target: 1, rewardDew: 30, rewardStardust: 0 },
@@ -19,7 +18,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   { id: 'decorator', metric: 'decorations', target: 4, rewardDew: 700, rewardStardust: 1 },
   { id: 'patientGardener', metric: 'level', target: 10, rewardDew: 500, rewardStardust: 2 },
   { id: 'nightGardener', metric: 'dailyStreak', target: 5, rewardDew: 400, rewardStardust: 3 },
-  { id: 'keeperOfDreams', metric: 'chapters', target: 6, rewardDew: 2000, rewardStardust: 5 },
+  { id: 'keeperOfDreams', metric: 'chapters', target: 17, rewardDew: 2000, rewardStardust: 5 },
   { id: 'rareBloom', metric: 'rareHarvests', target: 10, rewardDew: 1200, rewardStardust: 3 },
   { id: 'abundance', metric: 'dewEarned', target: 10000, rewardDew: 1500, rewardStardust: 4 },
 ];

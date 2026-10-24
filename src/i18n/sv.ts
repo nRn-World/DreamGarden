@@ -293,24 +293,6 @@ const sv: Dictionary = {
   'story.finaleBody':
     'Evighetsblomman öppnar sig, och ön minns. Det var aldrig en plats du hittade — det var en plats du odlade, ett litet steg av omsorg i taget. Andarna stannar. Månen fortsätter lysa. Och trädgården är till slut din att behålla.',
   'story.thanks': 'Tack för att du odlar med oss.',
-  'story.chapterTitle.1': 'Fröet som inte fanns',
-  'story.chapterTitle.2': 'Den första rösten',
-  'story.chapterTitle.3': 'Regnet som glömde',
-  'story.chapterTitle.4': 'Den saknade stjärnbilden',
-  'story.chapterTitle.5': 'Kronbladens dörr',
-  'story.chapterTitle.6': 'Evighet i blom',
-  'story.chapterBody.1':
-    'Du vaknar på en ö som inte borde finnas. Luften doftar regn och varm sten. I mitten av en ring av tomma rabatter står ett enda frö, och en lapp med en handstil du nästan känner igen: ”Odla en blomma, så ska trädgården minnas ditt namn.” Du trycker ner fröet i jorden. Någonstans under rötterna vänder något på sig i sömnen.',
-  'story.chapterBody.2':
-    'Den första blomman slår ut i skymningen, och med den kommer en röst som vind genom gräs. Mossling kallar den sig — en liten väktare av rötter som varit ensam mycket länge. Den säger att trädgården drömdes av någon som lämnade den i hast. Varje blomma du odlar ger tillbaka en flisa av den drömmen. Den ber, mycket artigt, om fler blommor.',
-  'story.chapterBody.3':
-    'Tidewhisper anländer med regnet och bär en kruka vatten som aldrig tar slut. Den säger att trädgården en gång tillhörde en drömmare som älskade regnet mer än solen. När drömmaren lämnade stannade molnen kvar och väntade. ”Vatten är bara tålamod”, säger Tidewhisper, ”som har lärt sig falla.” Kronbladen dricker, och ön blir en aning större.',
-  'story.chapterBody.4':
-    'En natt märker du ett hål på himlen där en stjärna borde vara. Starling erkänner att den tog stjärnan — bara en liten en — för att lysa upp trädgården genom det långa mörkret. Den erbjuder sig att lämna tillbaka den. Du vägrar. Stjärnbilden förblir ofullständig, men trädgården lyser lite varmare, och andarna börjar kalla dig trädgårdsmästaren.',
-  'story.chapterBody.5':
-    'Bakom den äldsta rabatten öppnar sig en dörr av kronblad. Nocturne väntar där, tyst som en inandning. Den har funnits i trädgården sedan före det första fröet, och nu säger den äntligen det den burit på: drömmaren som lämnade var ingen främling. Trädgården är ett minne du skapade åt dig själv, så att du skulle ha en vänlig plats att återvända till.',
-  'story.chapterBody.6':
-    'Du planterar evighetsblomman. Medan den växer samlas alla andar, och ön nynnar den melodi den hållit för dig. När blomman öppnar sig tar drömmen slut — men trädgården stannar. Du förstår nu: det handlade aldrig om att bli klar. Det handlade om att vårda. Grinden står öppen. Du kan gå när du vill. Du stannar.',
 
   'achievement.firstBloom.name': 'Första blomman',
   'achievement.firstBloom.desc': 'Skörda din första drömblomma.',

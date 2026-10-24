@@ -3,6 +3,21 @@
 All notable changes to Dream Garden are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions use semantic versioning.
 
+## [Unreleased]
+
+### Added
+
+- Tale Book (book icon in the HUD): a winding trail map with one stop per level and a finished tale at each, 17 in all,
+  in all seven languages. The last one is the finale.
+- Nightly plan: three tasks per local day (two from plant, water, harvest, feed, wish, plus a bedtime tale), measured
+  against real counters. Finishing them lets you tuck the garden in for a gift.
+- Nine calm music tracks. Each cleared night moves to the next one; the original melody is track one.
+
+### Changed
+
+- Journal story tab now shows the trail map. The six old chapters were replaced by the 17 tales; saves are repaired and
+  keep their rewards.
+
 ## [1.0.0] — 2026-10-24
 
 First complete release candidate.

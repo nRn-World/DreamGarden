@@ -1,0 +1,376 @@
+/* Tale book trail, tale endings and the nightly plan. */
+
+/* ---------------------------------------------------------------- */
+/* HUD additions                                                    */
+/* ---------------------------------------------------------------- */
+
+.book-dot {
+  position: absolute;
+  top: 3px;
+  inset-inline-end: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(255, 214, 143, 0.8);
+}
+
+.night-chip {
+  cursor: pointer;
+  color: var(--lav);
+  font-family: inherit;
+}
+
+.night-chip.is-ready {
+  color: var(--mint);
+  border-color: rgba(169, 240, 207, 0.4);
+  animation: night-pulse 2.4s ease-in-out infinite;
+}
+
+.night-chip.is-slept {
+  color: var(--mint);
+  opacity: 0.75;
+}
+
+@keyframes night-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(169, 240, 207, 0);
+  }
+  50% {
+    box-shadow: 0 0 14px 1px rgba(169, 240, 207, 0.35);
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Trail map                                                        */
+/* ---------------------------------------------------------------- */
+
+.trail-board {
+  /* The SVG trail is drawn left to right, so the board itself never mirrors. */
+  direction: ltr;
+  position: relative;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.trail-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.trail-line path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.trail-line-base {
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 3;
+  stroke-dasharray: 2 9;
+}
+
+.trail-line-done {
+  stroke: var(--mint);
+  stroke-width: 3;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 5px rgba(169, 240, 207, 0.5));
+}
+
+.trail-stop {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.trail-stop.is-right {
+  flex-direction: row-reverse;
+}
+
+.trail-stop:disabled {
+  cursor: default;
+}
+
+.trail-node {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1.5px solid rgba(255, 214, 143, 0.45);
+  background: radial-gradient(circle at 35% 30%, rgba(255, 226, 171, 0.28), rgba(30, 24, 50, 0.95));
+  box-shadow: var(--shadow-sm);
+}
+
+.trail-stop.is-read .trail-node {
+  color: var(--mint);
+  border-color: rgba(169, 240, 207, 0.55);
+  background: radial-gradient(circle at 35% 30%, rgba(169, 240, 207, 0.25), rgba(20, 34, 36, 0.95));
+}
+
+.trail-stop.is-locked .trail-node {
+  color: var(--faint);
+  border-color: var(--line);
+  background: rgba(22, 17, 39, 0.9);
+}
+
+.trail-stop.is-new .trail-node {
+  animation: trail-glow 2.2s ease-in-out infinite;
+}
+
+@keyframes trail-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 214, 143, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgba(255, 214, 143, 0);
+  }
+}
+
+.trail-here {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--mint);
+  box-shadow: 0 0 14px rgba(169, 240, 207, 0.6);
+  pointer-events: none;
+}
+
+.trail-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 92px;
+  width: max-content;
+  max-width: 138px;
+  padding: 6px 9px;
+  border-radius: 12px;
+  background: rgba(20, 16, 37, 0.8);
+  border: 1px solid var(--line);
+}
+
+[dir='rtl'] .trail-label {
+  direction: rtl;
+}
+
+.trail-stop.is-right .trail-label {
+  text-align: right;
+}
+
+.trail-stop.is-left .trail-label {
+  text-align: left;
+}
+
+.trail-stop.is-locked .trail-label {
+  opacity: 0.55;
+}
+
+.trail-kicker {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.trail-stop.is-here .trail-kicker,
+.trail-stop.is-new .trail-kicker {
+  color: var(--mint);
+}
+
+.trail-title {
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.book-sheet .story-progress {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Tale ending                                                      */
+/* ---------------------------------------------------------------- */
+
+.story-end {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--gold);
+  margin: 4px 0 10px;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid rgba(255, 214, 143, 0.4);
+}
+
+.story-theend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 14px;
+  color: var(--faint);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.story-theend span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+/* ---------------------------------------------------------------- */
+/* Nightly plan                                                     */
+/* ---------------------------------------------------------------- */
+
+.night-tasks {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.night-task {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(120deg, rgba(38, 31, 60, 0.82), rgba(22, 17, 39, 0.9));
+}
+
+.night-task.is-done {
+  border-color: rgba(169, 240, 207, 0.3);
+}
+
+.night-task-mark {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--lav);
+  background: rgba(203, 182, 255, 0.1);
+}
+
+.night-task.is-done .night-task-mark {
+  color: #12261f;
+  background: var(--mint);
+}
+
+.night-task-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.night-task-name {
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+.night-task.is-done .night-task-name {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(169, 240, 207, 0.5);
+}
+
+.night-task-bar {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.night-task-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--mint-strong), var(--mint));
+  transition: width 0.4s ease;
+}
+
+.night-task-count {
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.night-task-go {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--mint-line);
+  background: rgba(169, 240, 207, 0.08);
+  color: var(--mint);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+[dir='rtl'] .night-task-go svg {
+  transform: scaleX(-1);
+}
+
+.night-melody {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 12px 0 0;
+  font-size: 0.78rem;
+  color: var(--lav);
+}
+
+.night-rested {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  text-align: center;
+}
+
+.night-count {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* Only the opening paragraph of a tale gets the drop cap. */
+.story-body ~ .story-body::first-letter {
+  float: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  color: inherit;
+}

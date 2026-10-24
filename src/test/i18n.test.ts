@@ -7,6 +7,8 @@ import ar from '../i18n/ar';
 import fr from '../i18n/fr';
 import ja from '../i18n/ja';
 import { dictionaries, formatDuration, makeT, translate } from '../i18n';
+import { nightTexts } from '../i18n/night';
+import { TALES } from '../i18n/tales';
 
 const locales = { sv, tr, es, ar, fr, ja };
 const englishKeys = Object.keys(en) as DictKey[];
@@ -34,20 +36,27 @@ describe('dictionary completeness', () => {
     }
   });
 
-  it('keeps long story chapters translated in every locale', () => {
-    for (const [code, dict] of Object.entries(locales)) {
-      for (let index = 1; index <= 6; index += 1) {
-        const key = `story.chapterBody.${index}` as DictKey;
-        expect(dict[key].length, `${code} ${key}`).toBeGreaterThan(120);
-        expect(dict[key]).not.toBe(en[key]);
-      }
+  it('ships 17 finished tales in every locale, each different from English', () => {
+    for (const [code, tales] of Object.entries(TALES)) {
+      expect(tales, code).toHaveLength(17);
+      tales.forEach((tale, i) => {
+        expect(tale.title.length, `${code} ${i + 1} title`).toBeGreaterThan(0);
+        expect(tale.body, `${code} ${i + 1} body`).toHaveLength(2);
+        expect(tale.end.length, `${code} ${i + 1} end`).toBeGreaterThan(10);
+        if (code !== 'en') expect(tale.body[0], `${code} ${i + 1}`).not.toBe(TALES.en[i].body[0]);
+      });
     }
   });
 
-  it('ships the six required story chapters in English', () => {
-    for (let index = 1; index <= 6; index += 1) {
-      expect(en[`story.chapterTitle.${index}` as DictKey].length).toBeGreaterThan(0);
-      expect(en[`story.chapterBody.${index}` as DictKey].length).toBeGreaterThan(120);
+  it('keeps the night, book and music strings in parity with English', () => {
+    const keys = Object.keys(nightTexts.en).sort();
+    for (const [code, texts] of Object.entries(nightTexts)) {
+      expect(Object.keys(texts).sort(), code).toEqual(keys);
+      for (const key of keys) {
+        const value = (texts as Record<string, string>)[key];
+        expect(value.trim().length, `${code} ${key}`).toBeGreaterThan(0);
+        expect(placeholders(value), `${code} ${key}`).toEqual(placeholders((nightTexts.en as Record<string, string>)[key]));
+      }
     }
   });
 

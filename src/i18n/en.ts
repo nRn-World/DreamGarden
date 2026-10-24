@@ -295,24 +295,6 @@ const en = {
   'story.finaleBody':
     'The eternity bloom opens, and the island remembers. It was never a place you found — it was a place you grew, one small act of care at a time. The spirits stay. The moon keeps shining. And the garden, at last, is yours to keep.',
   'story.thanks': 'Thank you for growing with us.',
-  'story.chapterTitle.1': 'The Seed That Wasn’t There',
-  'story.chapterTitle.2': 'The First Voice',
-  'story.chapterTitle.3': 'The Rain That Forgot',
-  'story.chapterTitle.4': 'The Missing Constellation',
-  'story.chapterTitle.5': 'The Door of Petals',
-  'story.chapterTitle.6': 'Eternity in Bloom',
-  'story.chapterBody.1':
-    'You wake on an island that should not exist. The air smells of rain and warm stone. In the middle of a ring of empty beds stands a single seed, and a note in handwriting you almost recognise: “Grow one bloom, and the garden will remember your name.” You press the seed into the soil. Somewhere below the roots, something turns over in its sleep.',
-  'story.chapterBody.2':
-    'The first flower opens at dusk, and with it comes a voice like wind through grass. Mossling, it calls itself — a small keeper of roots who has been alone for a very long time. It says the garden was dreamed by someone who left in a hurry. Every bloom you grow returns a fragment of that dream. It asks, very politely, for more flowers.',
-  'story.chapterBody.3':
-    'Tidewhisper arrives with the rain, carrying a jar of water that never runs dry. It says the garden once belonged to a dreamer who loved the rain more than the sun. When the dreamer left, the clouds stayed, waiting. “Water is only patience,” Tidewhisper says, “that has learned to fall.” The petals drink, and the island grows a little larger.',
-  'story.chapterBody.4':
-    'One night you notice a hole in the sky where a star should be. Starling admits it took the star — just a small one — to light the garden through the long dark. It offers it back. You refuse. The constellation stays incomplete, but the garden glows a little warmer, and the spirits begin to call you the gardener.',
-  'story.chapterBody.5':
-    'Behind the oldest bed, a door of petals appears. Nocturne waits there, quiet as a held breath. It has been in the garden since before the first seed, and it finally says the thing it has been holding: the dreamer who left was not a stranger. The garden is a memory you made for yourself, so you would have somewhere gentle to return to.',
-  'story.chapterBody.6':
-    'You plant the eternity bloom. While it grows, every spirit gathers, and the island hums the tune it has been keeping for you. When the flower opens, the dream ends — but the garden stays. You understand now: it was never about finishing. It was about tending. The gate is open. You can leave whenever you like. You stay.',
 
   'achievement.firstBloom.name': 'First Bloom',
   'achievement.firstBloom.desc': 'Harvest your first dream bloom.',

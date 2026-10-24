@@ -1,5 +1,12 @@
 import { useGame, goalText } from '../game/store';
-import { levelXpNeeded, harmonyOf, moonwellCharges, inventoryTotal, availableChapter } from '../game/engine';
+import {
+  levelXpNeeded,
+  harmonyOf,
+  moonwellCharges,
+  inventoryTotal,
+  availableChapter,
+  nightProgress,
+} from '../game/engine';
 import { formatNumber, makeT } from '../i18n';
 import Icon from './Icon';
 
@@ -18,6 +25,9 @@ export default function Hud({ full = true }: { full?: boolean }) {
   const charges = moonwellCharges(save, now);
   const goal = goalText(save, now);
   const chapter = availableChapter(save);
+  const night = nightProgress(save);
+  const nightDone = night.filter((task) => task.done).length;
+  const nightReady = night.length > 0 && nightDone === night.length;
 
   const interact = () => {
     if (goal === 'goal.story' && chapter) {
@@ -90,6 +100,15 @@ export default function Hud({ full = true }: { full?: boolean }) {
           </button>
           <button
             type="button"
+            className="icon-button book-button"
+            onClick={() => openSheet({ kind: 'book' })}
+            aria-label={t('aria.book')}
+          >
+            <Icon name="book" size={20} />
+            {chapter && <span className="book-dot" aria-hidden="true" />}
+          </button>
+          <button
+            type="button"
             className="icon-button"
             onClick={() => openSheet({ kind: 'settings' })}
             aria-label={t('aria.settings')}
@@ -112,6 +131,15 @@ export default function Hud({ full = true }: { full?: boolean }) {
             </span>
             <span className="goal-text">{t(goal)}</span>
             {interactive && <Icon name="chevron" size={15} className="goal-chevron" />}
+          </button>
+          <button
+            type="button"
+            className={`hud-chip night-chip ${save.night.slept ? 'is-slept' : nightReady ? 'is-ready' : ''}`}
+            onClick={() => openSheet({ kind: 'night' })}
+            aria-label={t('aria.night')}
+          >
+            <Icon name={save.night.slept || nightReady ? 'check' : 'moon'} size={13} />
+            {t('night.chip', { done: nightDone, total: night.length })}
           </button>
           <span className="hud-chip" title={t('hud.harmonyValue', { value: harmony, percent: Math.round(harmony * 0.4) })}>
             <Icon name="leaf" size={13} />

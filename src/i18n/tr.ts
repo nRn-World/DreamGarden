@@ -294,24 +294,6 @@ const tr: Dictionary = {
   'story.finaleBody':
     'Sonsuzluk çiçeği açılıyor ve ada hatırlıyor. Burası hiçbir zaman bulduğun bir yer değildi — küçük bir özenle, her seferinde biraz daha büyüttüğün bir yerdi. Ruhlar kalır. Ay parlamaya devam eder. Ve bahçe nihayet sonsuza dek senin.',
   'story.thanks': 'Bizimle büyüdüğün için teşekkürler.',
-  'story.chapterTitle.1': 'Orada Olmayan Tohum',
-  'story.chapterTitle.2': 'İlk Ses',
-  'story.chapterTitle.3': 'Unutan Yağmur',
-  'story.chapterTitle.4': 'Kayıp Takımyıldız',
-  'story.chapterTitle.5': 'Yapraklardan Kapı',
-  'story.chapterTitle.6': 'Sonsuzluk Açarken',
-  'story.chapterBody.1':
-    'Var olmaması gereken bir adada uyanıyorsun. Hava yağmur ve sıcak taş kokuyor. Boş tarhlardan oluşan bir halkanın ortasında tek bir tohum duruyor; yanında da neredeyse tanıdığın bir el yazısıyla bir not: “Bir çiçek büyüt, bahçe adını hatırlasın.” Tohumu toprağa bastırıyorsun. Köklerin altında bir yerde, bir şey uykusunda dönüyor.',
-  'story.chapterBody.2':
-    'İlk çiçek alacakaranlıkta açılıyor; onunla birlikte çimenlerin arasından geçen rüzgâr gibi bir ses geliyor. Kendine Mossling diyor — çok uzun zamandır yalnız kalmış küçük bir kök bekçisi. Bahçeyi, aceleyle giden birinin rüyasında kurduğunu söylüyor. Büyüttüğün her çiçek o rüyadan bir parça geri getiriyor. Çok kibarca daha fazla çiçek istiyor.',
-  'story.chapterBody.3':
-    'Tidewhisper yağmurla geliyor; hiç kurumayan bir sürahi su taşıyor. Bahçenin bir zamanlar yağmuru güneşten çok seven bir rüya görenine ait olduğunu söylüyor. Rüya gören gidince bulutlar beklemiş. “Su, yalnızca düşmeyi öğrenmiş sabırdır,” diyor Tidewhisper. Yapraklar içiyor ve ada biraz daha büyüyor.',
-  'story.chapterBody.4':
-    'Bir gece gökyüzünde bir yıldızın olması gereken yerde bir boşluk fark ediyorsun. Starling yıldızı aldığını itiraf ediyor — sadece küçük bir tanesini — bahçeyi uzun karanlıkta aydınlatmak için. Geri vermeyi teklif ediyor. Reddediyorsun. Takımyıldız eksik kalıyor ama bahçe biraz daha sıcak parlıyor ve ruhlar sana bahçıvan demeye başlıyor.',
-  'story.chapterBody.5':
-    'En eski tarhın ardında yapraklardan bir kapı beliriyor. Nocturne orada, tutulmuş bir nefes kadar sessiz bekliyor. İlk tohumdan önce de bahçedeydi ve sonunda içinde tuttuğu şeyi söylüyor: giden rüya gören bir yabancı değildi. Bahçe, geri dönebileceğin narin bir yer olsun diye kendin için kurduğun bir hatıra.',
-  'story.chapterBody.6':
-    'Sonsuzluk çiçeğini ekiyorsun. Büyürken bütün ruhlar toplanıyor ve ada sana sakladığı ezgiyi mırıldanıyor. Çiçek açtığında rüya bitiyor — ama bahçe kalıyor. Şimdi anlıyorsun: mesele hiçbir zaman bitirmek değildi. Mesele ilgilenmekti. Kapı açık. İstediğin zaman gidebilirsin. Kalıyorsun.',
 
   'achievement.firstBloom.name': 'İlk Çiçek',
   'achievement.firstBloom.desc': 'İlk rüya çiçeğini hasat et.',

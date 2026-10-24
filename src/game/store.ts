@@ -21,6 +21,8 @@ import {
   moonwellCharges,
   nextGoalKey,
   offerToSpirit,
+  planNight,
+  sleepNight,
   plotUnlockInfo,
   sellCrops,
   syncLevelUnlocks,
@@ -44,6 +46,8 @@ export type Sheet =
   | { kind: 'daily' }
   | { kind: 'offline' }
   | { kind: 'story'; index: number }
+  | { kind: 'book' }
+  | { kind: 'night' }
   | { kind: 'achievements' }
   | { kind: 'basket' }
   | { kind: 'credits' }
@@ -127,6 +131,8 @@ export interface GameState {
   claimAchievement: (id: string) => void;
   claimDaily: () => void;
   readChapter: (index: number) => void;
+  countTale: () => void;
+  sleep: () => void;
   completeOnboarding: (locale: string) => void;
   advanceTutorial: (step: number) => void;
   nextTutorial: () => void;
@@ -214,7 +220,9 @@ export const useGame = create<GameState>((set, get) => {
         return growthOf(def, p.plant.plantedAt, p.plant.watered, now, bonusesFor(save)).ripe;
       }).length;
       syncLevelUnlocks(save);
+      planNight(save, now);
       save.lastSeen = now;
+      audio.setTrack(save.nightsCleared);
       audio.configure({ sound: save.settings.sound, music: save.settings.music });
       hydrateDocument(save.locale ?? detectLocale(), save.settings);
       set({
@@ -231,7 +239,14 @@ export const useGame = create<GameState>((set, get) => {
 
     tick: () => {
       if (!get().loaded) return;
-      set({ now: Date.now() });
+      const now = Date.now();
+      if (get().save.night.date !== localDateKey(now)) {
+        const save = clone(get().save);
+        planNight(save, now);
+        commit(save, { now });
+        return;
+      }
+      set({ now });
     },
 
     go: (screen) => {
@@ -290,6 +305,7 @@ export const useGame = create<GameState>((set, get) => {
       if (plot.plant.watered >= def.waterNeed) return;
       plot.plant.watered += 1;
       plot.plant.totalWatered += 1;
+      save.stats.watered += 1;
       if (save.tutorial === 2) save.tutorial = 3;
       commit(save);
       audio.sfx('water');
@@ -606,6 +622,23 @@ export const useGame = create<GameState>((set, get) => {
       } else {
         set({ sheet: { kind: 'story', index } });
       }
+    },
+
+    countTale: () => {
+      const save = clone(get().save);
+      save.stats.tales += 1;
+      commit(save);
+    },
+
+    sleep: () => {
+      const save = clone(get().save);
+      const reward = sleepNight(save);
+      if (!reward) return;
+      commit(save, { lastReward: reward });
+      audio.sfx('claim');
+      audio.setTrack(save.nightsCleared);
+      haptic([10, 40, 20], save.settings.haptics);
+      notify(t('toast.nightCleared', { dew: reward.dew }), 'gift');
     },
 
     completeOnboarding: (locale) => {

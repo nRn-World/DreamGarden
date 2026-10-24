@@ -1,4 +1,5 @@
-import en, { type DictKey, type Dictionary } from './en';
+import en, { type DictKey as EnKey, type Dictionary } from './en';
+import { nightTexts, type NightKey } from './night';
 import sv from './sv';
 import tr from './tr';
 import es from './es';
@@ -9,7 +10,8 @@ import type { LocaleCode } from './languages';
 
 export const dictionaries: Record<LocaleCode, Partial<Dictionary>> = { en, sv, tr, es, ar, fr, ja };
 
-export type { DictKey, Dictionary };
+export type DictKey = EnKey | NightKey;
+export type { Dictionary };
 export { LANGUAGES, languageFor, detectLocale, isLocale, DEFAULT_LOCALE } from './languages';
 export type { LocaleCode } from './languages';
 
@@ -33,8 +35,10 @@ export function translate(
   key: DictKey,
   vars?: Record<string, string | number>,
 ): string {
-  const dict = (dictionaries[locale as LocaleCode] ?? en) as Partial<Dictionary>;
-  let message = dict[key] ?? en[key] ?? key;
+  const code = (locale in dictionaries ? locale : 'en') as LocaleCode;
+  const pick = (source: Record<string, string | undefined>) => source[key];
+  let message =
+    pick(dictionaries[code]) ?? pick(nightTexts[code]) ?? pick(en) ?? pick(nightTexts.en) ?? key;
   if (vars) {
     for (const [name, value] of Object.entries(vars)) {
       const raw = typeof value === 'number' ? formatNumber(locale, value) : value;
@@ -70,4 +74,4 @@ export function formatDuration(ms: number, _locale: string, t: TFunction): strin
   return rest > 0 ? `${t('time.days', { n: days })} ${t('time.hours', { n: rest })}` : t('time.days', { n: days });
 }
 
-export const ALL_KEYS = Object.keys(en) as DictKey[];
+export const ALL_KEYS = Object.keys(en) as EnKey[];

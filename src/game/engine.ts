@@ -4,6 +4,8 @@ import type {
   ChapterDef,
   DecoId,
   HarvestResult,
+  NightTask,
+  NightTaskId,
   Order,
   PlantDef,
   PlantId,
@@ -83,6 +85,8 @@ export function createNewSave(now: number, locale: string | null = null): SaveSt
     chaptersRead: [],
     lastChapterSeen: 0,
     daily: { lastClaim: 0, streak: 0, totalClaims: 0 },
+    night: { date: '', tasks: [], slept: false },
+    nightsCleared: 0,
     moonwell: { date: localDateKey(now), charges: 3 },
     settings: {
       sound: true,
@@ -103,6 +107,8 @@ export function createNewSave(now: number, locale: string | null = null): SaveSt
       dailyMaxStreak: 0,
       boostsUsed: 0,
       rareHarvests: 0,
+      watered: 0,
+      tales: 0,
     },
     flags: { metSpirit: null, sawHarmony: false, harvestedFirst: false },
   };
@@ -466,6 +472,99 @@ export function dailyStreakOnClaim(save: SaveState, now: number): number {
 
 export function dailyReward(streak: number): { dew: number; stardust: number } {
   return { dew: 40 + 25 * Math.min(streak, 7), stardust: 1 + (streak % 3 === 0 ? 1 : 0) };
+}
+
+/* ------------------------------------------------------------------ */
+/* Nightly plan                                                        */
+/* ------------------------------------------------------------------ */
+
+/** Real counters the plan is measured against, so a task only completes when the player does it. */
+export function nightMetric(save: SaveState, id: NightTaskId): number {
+  switch (id) {
+    case 'plant':
+      return save.stats.planted;
+    case 'water':
+      return save.stats.watered;
+    case 'harvest':
+      return save.stats.harvests;
+    case 'feed':
+      return SPIRIT_ORDER.reduce((sum, s) => sum + (save.spirits[s]?.offerings ?? 0), 0);
+    case 'order':
+      return save.stats.ordersDone;
+    case 'tale':
+      return save.stats.tales;
+  }
+}
+
+function hashString(text: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i += 1) {
+    h = Math.imul(h ^ text.charCodeAt(i), 16777619);
+  }
+  return h >>> 0;
+}
+
+function nightTarget(id: NightTaskId, level: number): number {
+  switch (id) {
+    case 'plant':
+      return level >= 8 ? 3 : 2;
+    case 'water':
+      return 2;
+    case 'harvest':
+      return level >= 6 ? 2 : 1;
+    default:
+      return 1;
+  }
+}
+
+/** Makes tonight's plan if the local date changed. Always three tasks: two from the pool plus a bedtime tale. */
+export function planNight(save: SaveState, now: number): boolean {
+  const date = localDateKey(now);
+  if (save.night.date === date) return false;
+  const pool: NightTaskId[] = ['plant', 'water', 'harvest'];
+  if (SPIRIT_ORDER.some((id) => save.spirits[id]?.unlocked)) pool.push('feed');
+  if (save.orders.length > 0) pool.push('order');
+  const seed = hashString(`${date}:${save.nightsCleared}`);
+  const first = pool[seed % pool.length];
+  const rest = pool.filter((id) => id !== first);
+  const second = rest[(seed >>> 8) % rest.length];
+  const ids: NightTaskId[] = [first, second, 'tale'];
+  const tasks: NightTask[] = ids.map((id) => ({ id, target: nightTarget(id, save.level), base: nightMetric(save, id) }));
+  save.night = { date, tasks, slept: false };
+  return true;
+}
+
+export interface NightTaskProgress extends NightTask {
+  value: number;
+  done: boolean;
+}
+
+export function nightProgress(save: SaveState): NightTaskProgress[] {
+  return save.night.tasks.map((task) => {
+    const value = clamp(nightMetric(save, task.id) - task.base, 0, task.target);
+    return { ...task, value, done: value >= task.target };
+  });
+}
+
+export function nightPlanDone(save: SaveState): boolean {
+  const progress = nightProgress(save);
+  return progress.length > 0 && progress.every((task) => task.done);
+}
+
+export function nightReward(save: SaveState): { dew: number; stardust: number } {
+  return { dew: 80 + 15 * save.level, stardust: 1 + ((save.nightsCleared + 1) % 3 === 0 ? 1 : 0) };
+}
+
+/** Finish the night: only possible once every task is done. Returns the reward, or null. */
+export function sleepNight(save: SaveState): { dew: number; stardust: number } | null {
+  if (save.night.slept || !nightPlanDone(save)) return null;
+  const reward = nightReward(save);
+  save.night.slept = true;
+  save.nightsCleared += 1;
+  save.dew += reward.dew;
+  save.stardust += reward.stardust;
+  save.stats.dewEarned += reward.dew;
+  return reward;
 }
 
 export function moonwellCharges(save: SaveState, now: number): number {

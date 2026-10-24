@@ -301,24 +301,6 @@ const es: Dictionary = {
   'story.finaleBody':
     'La flor de la eternidad se abre y la isla recuerda. Nunca fue un lugar que encontraste, sino un lugar que cultivaste, con un pequeño gesto de cuidado tras otro. Los espíritus se quedan. La luna sigue brillando. Y el jardín, por fin, es tuyo para siempre.',
   'story.thanks': 'Gracias por crecer con nosotros.',
-  'story.chapterTitle.1': 'La semilla que no estaba allí',
-  'story.chapterTitle.2': 'La primera voz',
-  'story.chapterTitle.3': 'La lluvia que olvidó',
-  'story.chapterTitle.4': 'La constelación ausente',
-  'story.chapterTitle.5': 'La puerta de pétalos',
-  'story.chapterTitle.6': 'La eternidad en flor',
-  'story.chapterBody.1':
-    'Despiertas en una isla que no debería existir. El aire huele a lluvia y a piedra cálida. En el centro de un círculo de parterres vacíos hay una sola semilla y una nota con una letra que casi reconoces: «Planta una flor y el jardín recordará tu nombre». Hundes la semilla en la tierra. En algún lugar bajo las raíces, algo se da la vuelta en sueños.',
-  'story.chapterBody.2':
-    'La primera flor se abre al anochecer y con ella llega una voz como el viento entre la hierba. Mossling, se llama: un pequeño guardián de las raíces que lleva muchísimo tiempo solo. Dice que alguien que se marchó con prisa soñó el jardín. Cada flor que cultivas devuelve un fragmento de ese sueño. Pide, con mucha educación, más flores.',
-  'story.chapterBody.3':
-    'Tidewhisper llega con la lluvia, llevando un tarro de agua que nunca se agota. Dice que el jardín perteneció a un soñador que amaba la lluvia más que el sol. Cuando el soñador se marchó, las nubes se quedaron, esperando. «El agua no es más que paciencia —dice Tidewhisper— que ha aprendido a caer». Los pétalos beben y la isla se hace un poco más grande.',
-  'story.chapterBody.4':
-    'Una noche notas un hueco en el cielo donde debería haber una estrella. Starling confiesa que se llevó la estrella —solo una pequeña— para iluminar el jardín durante la larga oscuridad. Se la ofrece de vuelta. Te niegas. La constelación sigue incompleta, pero el jardín brilla un poco más cálido, y los espíritus empiezan a llamarte jardinero.',
-  'story.chapterBody.5':
-    'Detrás del parterre más antiguo aparece una puerta de pétalos. Nocturne espera allí, silencioso como un aliento contenido. Ha estado en el jardín desde antes de la primera semilla y por fin dice lo que llevaba dentro: el soñador que se marchó no era un desconocido. El jardín es un recuerdo que creaste para ti, para tener un lugar tierno al que volver.',
-  'story.chapterBody.6':
-    'Plantas la flor de la eternidad. Mientras crece, todos los espíritus se reúnen y la isla tararea la melodía que ha guardado para ti. Cuando la flor se abre, el sueño termina, pero el jardín permanece. Ahora lo entiendes: nunca se trató de terminar, sino de cuidar. La verja está abierta. Puedes marcharte cuando quieras. Te quedas.',
 
   'achievement.firstBloom.name': 'Primera flor',
   'achievement.firstBloom.desc': 'Cosecha tu primera flor de ensueño.',

@@ -129,6 +129,25 @@ export interface Stats {
   dailyMaxStreak: number;
   boostsUsed: number;
   rareHarvests: number;
+  watered: number;
+  /** Times a tale was opened, new or re-read; feeds the nightly "read a tale" task. */
+  tales: number;
+}
+
+export type NightTaskId = 'plant' | 'water' | 'harvest' | 'feed' | 'order' | 'tale';
+
+export interface NightTask {
+  id: NightTaskId;
+  target: number;
+  /** Value of the matching counter when the night's plan was made. */
+  base: number;
+}
+
+export interface NightState {
+  /** Local date the plan belongs to; a new date means a new night and a new plan. */
+  date: string;
+  tasks: NightTask[];
+  slept: boolean;
 }
 
 export interface DailyState {
@@ -162,6 +181,8 @@ export interface SaveState {
   chaptersRead: number[];
   lastChapterSeen: number;
   daily: DailyState;
+  night: NightState;
+  nightsCleared: number;
   moonwell: { date: string; charges: number };
   settings: Settings;
   stats: Stats;

@@ -300,24 +300,6 @@ const fr: Dictionary = {
   'story.finaleBody':
     'La fleur d’éternité s’ouvre, et l’île se souvient. Ce n’était pas un lieu que tu as trouvé — c’était un lieu que tu as fait pousser, un petit geste de soin après l’autre. Les esprits restent. La lune continue de briller. Et le jardin, enfin, est à toi.',
   'story.thanks': 'Merci d’avoir cultivé avec nous.',
-  'story.chapterTitle.1': 'La graine qui n’était pas là',
-  'story.chapterTitle.2': 'La première voix',
-  'story.chapterTitle.3': 'La pluie qui a oublié',
-  'story.chapterTitle.4': 'La constellation manquante',
-  'story.chapterTitle.5': 'La porte de pétales',
-  'story.chapterTitle.6': 'L’éternité en fleur',
-  'story.chapterBody.1':
-    'Tu t’éveilles sur une île qui ne devrait pas exister. L’air sent la pluie et la pierre chaude. Au milieu d’un cercle de parterres vides se dresse une unique graine, avec un mot dans une écriture que tu reconnais presque : « Fais éclore une fleur, et le jardin se souviendra de ton nom. » Tu enfonces la graine dans la terre. Quelque part sous les racines, quelque chose se retourne dans son sommeil.',
-  'story.chapterBody.2':
-    'La première fleur s’ouvre au crépuscule, et avec elle vient une voix comme le vent dans l’herbe. Mossling, dit-elle. Un petit gardien des racines, seul depuis très longtemps. Il raconte que le jardin a été rêvé par quelqu’un parti en hâte. Chaque fleur que tu fais pousser rend un fragment de ce rêve. Il demande, très poliment, encore des fleurs.',
-  'story.chapterBody.3':
-    'Tidewhisper arrive avec la pluie, portant une jarre d’eau qui ne se vide jamais. Il dit que le jardin appartenait autrefois à un rêveur qui aimait la pluie plus que le soleil. Quand le rêveur est parti, les nuages sont restés, à attendre. « L’eau n’est que de la patience, dit Tidewhisper, qui a appris à tomber. » Les pétales boivent, et l’île grandit un peu.',
-  'story.chapterBody.4':
-    'Une nuit, tu remarques un trou dans le ciel, à l’endroit où devrait briller une étoile. Starling avoue l’avoir prise — une toute petite — pour éclairer le jardin pendant la longue obscurité. Il propose de la rendre. Tu refuses. La constellation reste incomplète, mais le jardin brille un peu plus chaudement, et les esprits commencent à t’appeler le jardinier.',
-  'story.chapterBody.5':
-    'Derrière le plus ancien parterre apparaît une porte de pétales. Nocturne y attend, silencieux comme un souffle retenu. Il est dans le jardin depuis avant la première graine, et il dit enfin ce qu’il gardait : le rêveur qui est parti n’était pas un inconnu. Le jardin est un souvenir que tu as fabriqué pour toi, afin d’avoir un endroit doux où revenir.',
-  'story.chapterBody.6':
-    'Tu plantes la fleur d’éternité. Pendant qu’elle pousse, tous les esprits se rassemblent, et l’île fredonne la mélodie qu’elle gardait pour toi. Quand la fleur s’ouvre, le rêve se termine — mais le jardin reste. Tu comprends maintenant : il ne s’agissait jamais de finir. Il s’agissait de prendre soin. La porte est ouverte. Tu peux partir quand tu veux. Tu restes.',
 
   'achievement.firstBloom.name': 'Première fleur',
   'achievement.firstBloom.desc': 'Récolte ta première fleur de rêve.',

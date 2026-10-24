@@ -14,6 +14,7 @@ class DreamAudio {
   private started = false;
   private musicTimer: number | null = null;
   private chordIndex = 0;
+  private track = 0;
   private chordVoices: { osc: OscillatorNode; gain: GainNode }[] = [];
   private soundOn = true;
   private musicOn = true;
@@ -29,6 +30,17 @@ class DreamAudio {
     }
     if (settings.music && this.started) this.startMusicLoop();
     if (!settings.music) this.stopMusicLoop();
+  }
+
+  /** Each cleared night brings the next melody; the list wraps. */
+  setTrack(n: number): void {
+    const index = ((Math.floor(n) % TRACKS.length) + TRACKS.length) % TRACKS.length;
+    if (index === this.track) return;
+    this.track = index;
+    if (this.started && this.musicOn) {
+      this.stopMusicLoop();
+      this.startMusicLoop();
+    }
   }
 
   /** Must be called from a user gesture at least once. Safe to call repeatedly. */
@@ -73,9 +85,9 @@ class DreamAudio {
     this.playChord();
     this.musicTimer = window.setInterval(() => {
       if (!this.musicOn) return;
-      this.chordIndex = (this.chordIndex + 1) % CHORDS.length;
+      this.chordIndex = (this.chordIndex + 1) % TRACKS[this.track].chords.length;
       this.playChord();
-    }, 14_000);
+    }, TRACKS[this.track].every);
   }
 
   private stopMusicLoop(): void {
@@ -90,7 +102,8 @@ class DreamAudio {
     const bus = this.musicBus;
     if (!ctx || !bus) return;
     const now = ctx.currentTime;
-    const chord = CHORDS[this.chordIndex % CHORDS.length];
+    const track = TRACKS[this.track];
+    const chord = track.chords[this.chordIndex % track.chords.length];
 
     for (const voice of this.chordVoices) {
       voice.gain.gain.cancelScheduledValues(now);
@@ -101,13 +114,13 @@ class DreamAudio {
 
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 900;
+    filter.frequency.value = track.cutoff;
     filter.Q.value = 0.4;
     filter.connect(bus);
 
     chord.forEach((freq, i) => {
       const osc = ctx.createOscillator();
-      osc.type = i === 0 ? 'sine' : 'triangle';
+      osc.type = i === 0 ? 'sine' : track.wave;
       osc.frequency.value = freq;
       osc.detune.value = (i % 2 === 0 ? -1 : 1) * 4;
       const gain = ctx.createGain();
@@ -121,9 +134,14 @@ class DreamAudio {
 
     // A sparse glass bell high above the pad, like a wind chime.
     if (Math.random() < 0.85) {
-      const bell = [1046.5, 1318.5, 1568, 2093][Math.floor(Math.random() * 4)];
+      const bell = track.bells[Math.floor(Math.random() * track.bells.length)];
       this.tone(bell, 0.055, 3.4, 'sine', now + 2.5, bus);
       this.tone(bell * 1.5, 0.018, 2.2, 'sine', now + 4.2, bus);
+    }
+
+    // Music-box notes drifting over the pad on the tracks that ask for them.
+    if (track.arp) {
+      chord.slice(1).forEach((freq, i) => this.tone(freq * 2, 0.02, 2.8, 'sine', now + 3 + i * 2.4, bus));
     }
   }
 
@@ -210,12 +228,101 @@ class DreamAudio {
   }
 }
 
-const CHORDS: number[][] = [
-  [110, 164.81, 261.63, 329.63, 493.88], // Am9
-  [87.31, 174.61, 261.63, 349.23, 440], // Fmaj9
-  [130.81, 196, 329.63, 392, 587.33], // Cmaj9
-  [98, 146.83, 246.94, 293.66, 392], // G/B
+interface Track {
+  chords: number[][];
+  bells: number[];
+  /** Milliseconds between chord changes. */
+  every: number;
+  cutoff: number;
+  wave: OscillatorType;
+  arp: boolean;
+}
+
+const hz = (midi: number) => 440 * 2 ** ((midi - 69) / 12);
+const fromMidi = (rows: number[][]) => rows.map((row) => row.map(hz));
+
+/** Nine calm pads. Track 0 is the original melody; each cleared night moves one further. */
+const TRACKS: Track[] = [
+  {
+    chords: [
+      [110, 164.81, 261.63, 329.63, 493.88], // Am9
+      [87.31, 174.61, 261.63, 349.23, 440], // Fmaj9
+      [130.81, 196, 329.63, 392, 587.33], // Cmaj9
+      [98, 146.83, 246.94, 293.66, 392], // G/B
+    ],
+    bells: [1046.5, 1318.5, 1568, 2093],
+    every: 14_000,
+    cutoff: 900,
+    wave: 'triangle',
+    arp: false,
+  },
+  {
+    chords: fromMidi([[38, 45, 57, 61, 64], [35, 47, 54, 57, 62], [43, 50, 59, 62, 66], [33, 45, 52, 57, 61]]),
+    bells: [81, 83, 86, 88, 90].map(hz),
+    every: 15_000,
+    cutoff: 800,
+    wave: 'triangle',
+    arp: false,
+  },
+  {
+    chords: fromMidi([[36, 48, 55, 59, 64], [33, 45, 52, 55, 60], [41, 53, 57, 60, 64], [43, 55, 59, 62, 64]]),
+    bells: [84, 86, 88, 91, 93].map(hz),
+    every: 16_000,
+    cutoff: 1000,
+    wave: 'triangle',
+    arp: true,
+  },
+  {
+    chords: fromMidi([[40, 52, 59, 62, 66], [36, 48, 55, 59, 62], [38, 50, 57, 59, 64], [35, 47, 54, 57, 62]]),
+    bells: [83, 86, 88, 91, 95].map(hz),
+    every: 17_000,
+    cutoff: 700,
+    wave: 'sine',
+    arp: false,
+  },
+  {
+    chords: fromMidi([[33, 45, 52, 56, 61], [38, 50, 57, 61, 64], [40, 52, 56, 59, 64], [42, 54, 57, 61, 64]]),
+    bells: [81, 83, 85, 88, 90].map(hz),
+    every: 15_000,
+    cutoff: 950,
+    wave: 'triangle',
+    arp: true,
+  },
+  {
+    chords: fromMidi([[41, 53, 57, 60, 64], [43, 55, 59, 62, 64], [36, 48, 55, 59, 62], [38, 50, 57, 60, 64]]),
+    bells: [84, 86, 89, 91, 93].map(hz),
+    every: 16_000,
+    cutoff: 850,
+    wave: 'triangle',
+    arp: false,
+  },
+  {
+    chords: fromMidi([[43, 50, 58, 65, 69], [39, 51, 58, 62, 67], [34, 46, 53, 57, 62], [41, 53, 57, 62, 64]]),
+    bells: [82, 86, 89, 91, 94].map(hz),
+    every: 18_000,
+    cutoff: 750,
+    wave: 'sine',
+    arp: true,
+  },
+  {
+    chords: fromMidi([[34, 46, 53, 57, 62], [39, 51, 55, 58, 62], [43, 55, 58, 62, 65], [33, 45, 53, 57, 60]]),
+    bells: [82, 84, 86, 89, 91].map(hz),
+    every: 15_000,
+    cutoff: 1000,
+    wave: 'triangle',
+    arp: true,
+  },
+  {
+    chords: fromMidi([[33, 45, 52, 57, 60], [36, 48, 52, 55, 59], [38, 50, 53, 57, 62], [40, 52, 55, 59, 62]]),
+    bells: [81, 84, 86, 88, 91].map(hz),
+    every: 20_000,
+    cutoff: 600,
+    wave: 'sine',
+    arp: false,
+  },
 ];
+
+export const TRACK_COUNT = TRACKS.length;
 
 export const audio = new DreamAudio();
 

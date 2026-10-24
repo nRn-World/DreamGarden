@@ -19,9 +19,13 @@ import {
   makeOrders,
   moonwellCharges,
   nextGoalKey,
+  nightPlanDone,
+  nightProgress,
   offerToSpirit,
+  planNight,
   plotUnlockInfo,
   sellCrops,
+  sleepNight,
   syncLevelUnlocks,
 } from '../game/engine';
 import { PLANTS } from '../game/content/plants';
@@ -221,5 +225,54 @@ describe('daily gifts and the moonwell', () => {
     expect(moonwellCharges(save, NOW)).toBe(3);
     save.moonwell = { date: 'yesterday', charges: 0 };
     expect(moonwellCharges(save, NOW)).toBe(3);
+  });
+});
+
+describe('the nightly plan', () => {
+  const DAY = 24 * 60 * 60 * 1000;
+
+  it('plans three tasks once per local day, always ending with a tale', () => {
+    const save = fresh();
+    expect(planNight(save, NOW)).toBe(true);
+    expect(save.night.tasks).toHaveLength(3);
+    expect(save.night.tasks[2].id).toBe('tale');
+    expect(new Set(save.night.tasks.map((t) => t.id)).size).toBe(3);
+    const first = JSON.stringify(save.night);
+    expect(planNight(save, NOW + 1000)).toBe(false);
+    expect(JSON.stringify(save.night)).toBe(first);
+    expect(planNight(save, NOW + 2 * DAY)).toBe(true);
+    expect(save.night.slept).toBe(false);
+  });
+
+  it('only counts what the player does after the plan was made', () => {
+    const save = fresh();
+    save.stats.planted = 5;
+    save.stats.watered = 5;
+    save.stats.tales = 5;
+    planNight(save, NOW);
+    expect(nightProgress(save).every((t) => t.value === 0)).toBe(true);
+    for (const task of save.night.tasks) {
+      if (task.id === 'plant') save.stats.planted += task.target;
+      if (task.id === 'water') save.stats.watered += task.target;
+      if (task.id === 'harvest') save.stats.harvests += task.target;
+      if (task.id === 'feed') save.spirits.mossling.offerings += task.target;
+      if (task.id === 'order') save.stats.ordersDone += task.target;
+      if (task.id === 'tale') save.stats.tales += task.target;
+    }
+    expect(nightPlanDone(save)).toBe(true);
+  });
+
+  it('refuses to sleep early and pays out exactly once', () => {
+    const save = fresh();
+    planNight(save, NOW);
+    expect(sleepNight(save)).toBeNull();
+    save.night.tasks = save.night.tasks.map((t) => ({ ...t, base: t.base - t.target }));
+    const dew = save.dew;
+    const reward = sleepNight(save);
+    expect(reward).not.toBeNull();
+    expect(save.dew).toBe(dew + reward!.dew);
+    expect(save.nightsCleared).toBe(1);
+    expect(sleepNight(save)).toBeNull();
+    expect(save.nightsCleared).toBe(1);
   });
 });
